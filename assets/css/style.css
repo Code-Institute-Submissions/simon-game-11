@@ -1,0 +1,86 @@
+/*--------------------------------------------------------------------- Fonts */
+@import url('https://fonts.googleapis.com/css?family=Exo|Acme|Orbitron');
+/*----------------------------------------------------------------- Body/HTML */
+body, html {
+    box-sizing: border-box;
+    font-family: 'Exo', sans-serif;
+}
+/*------------------------------------------------------------------- Heading */
+.heading {
+    text-align: center;
+    font-family: 'Acme', sans-serif;
+}
+/*-------------------------------------------------------------------- Scores */
+#score-container {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+#scores {
+    font-family: 'Orbitron', sans-serif;
+}
+/*-------------------------------------------------------------- Game Console */
+#console {
+    background-color: black;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    width: 125px;
+    height: 125px;
+    margin: auto;
+    padding: 10px;
+    border-radius: 10px;
+}
+#green {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: green;
+}
+#red {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: red;
+}
+#yellow {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: yellow;
+}
+#blue {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: blue;
+}
+/*--------------------------------------------------------------- Game Status */
+#status {
+    width: 200px;
+    height: 100px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 10px auto;
+    text-align: center;
+    padding-top: 40px;
+}
+
+/*-------------------------------------------------------------- Game Options */
+#buttons {
+    margin: 30px;
+    display: flex;
+    justify-content: space-around;
+}
+#new-game, #exit {
+    width: 100px;
+    font-size: 15px;
+    padding: 5px;
+}
+.options {
+    text-align: center;
+    font-size: 20px;
+    margin: 20px;
+}
+
