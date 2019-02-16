@@ -56,6 +56,9 @@ body, html {
     border-radius: 50%;
     background-color: blue;
 }
+.shadow-effect {
+    box-shadow: 5px 10px 20px black inset;
+}
 /*--------------------------------------------------------------- Game Status */
 #status {
     width: 200px;
