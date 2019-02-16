@@ -11,7 +11,8 @@ $(document).ready(function(){
     var yellowSound = $('#yellowSound')[0];
     var incorrectSound = $('#incorrectSound')[0];
     var newGame = $("#newGame");
-    var gameStatus = $('#status')
+    var statusDisplay = $('#status');
+    var scores = $('#scores');
     var turn;
     var sequenceLength;
    
@@ -71,31 +72,33 @@ $(document).ready(function(){
 // function to record and check player sequence 
     var playerSequence = [];
     function recordAndCheckPlayerSequence(computerSequence, color) {
-        if (playerSequence.length < computerSequence.length){
+        if (playerSequence.length < computerSequence.length && turn == 'user'){
+            statusDisplay.html('Playing...');
             playerSequence.push(color);
             console.log(playerSequence);
             check();
-        } else {
-            incorrectSound.play();
-            console.log('Wrong');
-        }
+        } 
     }
     // function to check player sequence 
     function check(){
         for (var i=0; i<playerSequence.length; i++){
             if (playerSequence[i] == computerSequence[i]){
                 console.log('Right');
+                return 'Right'
             } else {
                 incorrectSound.play();
                 console.log('Wrong');
+                return 'Wrong'
             }
         }
     }
+
+
 // function to initiate simple simon game
     
     function playGame() {
         turn = 'computer';
-        gameStatus.html('Computer playing...');
+        statusDisplay.html('Computer playing...');
         sequenceLength = 1;
         computerPlayRandomColorSequence(sequenceLength);
         console.log(computerSequence); // testing in console
@@ -104,7 +107,7 @@ $(document).ready(function(){
         
         function playerTurn () {
             turn = 'user';
-            gameStatus.html('Your turn to play...');
+            statusDisplay.html('Your turn to play...');
         }
     }
     
