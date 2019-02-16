@@ -10,17 +10,10 @@ $(document).ready(function(){
     var blueSound = $('#blueSound')[0];
     var yellowSound = $('#yellowSound')[0];
     var incorrectSound = $('#incorrectSound')[0];
-   
-// Function to generate random color sequence for computer
-    var colors = ["red", "green", "blue", "yellow"];
-    var computerSequence = [];
-    function generateRandomColorSequence(sequenceLength) {
-       for (var i=0; i<sequenceLength; i++) {
-            var randomNumber = Math.floor(Math.random()*4);
-           computerSequence.push(colors[randomNumber]);
-       }
-       return computerSequence;
-    }
+    var newGame = $("#newGame");
+    var gameStatus = $('#status')
+    var turn;
+    var sequenceLength;
    
 // Handling events
     red.on('click', function (){ 
@@ -39,6 +32,7 @@ $(document).ready(function(){
         play_sound(blue, blueSound);
         recordAndCheckPlayerSequence(computerSequence, 'blue');
     });
+    newGame.on("click", playGame);
 
 // function to play sound and other effects
     function play_sound(colorId, soundId) {
@@ -50,6 +44,17 @@ $(document).ready(function(){
         function no_shadow_effect(){
             colorId.removeClass("shadow-effect");
         }
+    }
+
+// Function to generate random color sequence for computer
+    var colors = ["red", "green", "blue", "yellow"];
+    var computerSequence = [];
+    function generateRandomColorSequence(sequenceLength) {
+       for (var i=0; i<sequenceLength; i++) {
+            var randomNumber = Math.floor(Math.random()*4);
+           computerSequence.push(colors[randomNumber]);
+       }
+       return computerSequence;
     }
 
 // function to play given sequence
@@ -86,8 +91,21 @@ $(document).ready(function(){
             }
         }
     }
-    // function test
-    var x = generateRandomColorSequence(10);
-    console.log(generateRandomColorSequence(x));
+// function to initiate simple simon game
+    
+    function playGame() {
+        turn = 'computer';
+        gameStatus.html('Computer playing...');
+        sequenceLength = 1;
+        computerPlayRandomColorSequence(sequenceLength);
+        console.log(computerSequence); // testing in console
+        
+        setTimeout(playerTurn, sequenceLength * 1005);
+        
+        function playerTurn () {
+            turn = 'user';
+            gameStatus.html('Your turn to play...');
+        }
+    }
     
 });
