@@ -9,6 +9,7 @@ $(document).ready(function(){
     var greenSound = $('#greenSound')[0];
     var blueSound = $('#blueSound')[0];
     var yellowSound = $('#yellowSound')[0];
+    var incorrectSound = $('#incorrectSound')[0];
    
 // Function to generate random color sequence for computer
     var colors = ["red", "green", "blue", "yellow"];
@@ -24,15 +25,19 @@ $(document).ready(function(){
 // Handling events
     red.on('click', function (){ 
         play_sound(red, redSound);
+        recordAndCheckPlayerSequence(computerSequence, 'red');
     });
     green.on('click', function (){
         play_sound(green, greenSound);
+        recordAndCheckPlayerSequence(computerSequence, 'green');
     });
     yellow.on('click', function (){
         play_sound(yellow, yellowSound);
+        recordAndCheckPlayerSequence(computerSequence, 'yellow');
     });
     blue.on('click', function (){
         play_sound(blue, blueSound);
+        recordAndCheckPlayerSequence(computerSequence, 'blue');
     });
 
 // function to play sound and other effects
@@ -57,4 +62,32 @@ $(document).ready(function(){
             }, i * 1000);
         });
     }
+
+// function to record and check player sequence 
+    var playerSequence = [];
+    function recordAndCheckPlayerSequence(computerSequence, color) {
+        if (playerSequence.length < computerSequence.length){
+            playerSequence.push(color);
+            console.log(playerSequence);
+            check();
+        } else {
+            incorrectSound.play();
+            console.log('Wrong');
+        }
+    }
+    // function to check player sequence 
+    function check(){
+        for (var i=0; i<playerSequence.length; i++){
+            if (playerSequence[i] == computerSequence[i]){
+                console.log('Right');
+            } else {
+                incorrectSound.play();
+                console.log('Wrong');
+            }
+        }
+    }
+    // function test
+    var x = generateRandomColorSequence(10);
+    console.log(generateRandomColorSequence(x));
+    
 });
