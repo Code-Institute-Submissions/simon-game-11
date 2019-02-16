@@ -11,15 +11,15 @@ $(document).ready(function(){
     var yellowSound = $('#yellowSound')[0];
    
 // Function to generate random color sequence for computer
-   var colors = ["red", "green", "blue", "yellow"];
+    var colors = ["red", "green", "blue", "yellow"];
     var computerSequence = [];
-   function generateRandomColorSequence(sequenceLength) {
+    function generateRandomColorSequence(sequenceLength) {
        for (var i=0; i<sequenceLength; i++) {
             var randomNumber = Math.floor(Math.random()*4);
            computerSequence.push(colors[randomNumber]);
        }
        return computerSequence;
-   }
+    }
    
 // Handling events
     red.on('click', function (){ 
@@ -46,5 +46,15 @@ $(document).ready(function(){
             colorId.removeClass("shadow-effect");
         }
     }
-    
+
+// function to play given sequence
+    // works perfectly in Mozilla firefox; no sound in Chrome - throws error: Uncaught (in promise) DOMException
+    function computerPlayRandomColorSequence(sequenceLength) {
+        generateRandomColorSequence(sequenceLength);
+        $.each(computerSequence, function(i) {
+            setTimeout(function(){
+              $("#" + computerSequence[i]).click();   
+            }, i * 1000);
+        });
+    }
 });
