@@ -22,19 +22,19 @@ $(document).ready(function(){
 // Handling events
     red.on('click', function (){ 
         playSound(red, redSound);
-        recordAndCheckPlayerSequence(computerSequence, 'red');
+        recordAndCheckPlayerSequence('red');
     });
     green.on('click', function (){
         playSound(green, greenSound);
-        recordAndCheckPlayerSequence(computerSequence, 'green');
+        recordAndCheckPlayerSequence('green');
     });
     yellow.on('click', function (){
         playSound(yellow, yellowSound);
-        recordAndCheckPlayerSequence(computerSequence, 'yellow');
+        recordAndCheckPlayerSequence('yellow');
     });
     blue.on('click', function (){
         playSound(blue, blueSound);
-        recordAndCheckPlayerSequence(computerSequence, 'blue');
+        recordAndCheckPlayerSequence('blue');
     });
     newGame.on("click", playGame);
 
@@ -65,19 +65,6 @@ $(document).ready(function(){
     function computerPlayRandomColorSequence(sequenceLength) {
         generateRandomColorSequence(sequenceLength);
         $.each(computerSequence, function(i) {
-            /*setTimeout(function(){
-              $("#" + computerSequence[i]).click();   
-            }, i * 1000);*/
-            
-            /*if (computerSequence[i] == 'red') {
-                play_sound(red, redSound);
-            } else if (computerSequence[i] == 'yellow') {
-                play_sound(yellow, yellowSound);
-            } else if (computerSequence[i] == 'blue') {
-                play_sound(blue, blueSound);
-            } else {
-                play_sound(green, greenSound);
-            }*/
             setTimeout(function(){
                 var colorId = $("#" + computerSequence[i]);
                 var soundId = $("#" + computerSequence[i] + "Sound")[0];
@@ -87,39 +74,40 @@ $(document).ready(function(){
     }
 
 // function to record and check player sequence 
-    function recordAndCheckPlayerSequence(computerSequence, color) {
-        if (playerSequence.length < computerSequence.length && turn == 'user'){
+    function recordAndCheckPlayerSequence(color) {
+        /*if (playerSequence.length < sequenceLength && turn == 'user'){
             statusDisplay.html('Playing...');
             playerSequence.push(color);
             console.log(playerSequence);
             check();
             gameStatus(playGame);
-        } 
+        } */
+        playerSequence.push(color);
+        gameStatus(playGame);
     }
     // function to check player sequence 
     function check(){
-        for (var i=0; i<playerSequence.length; i++){
-            if (playerSequence[i] == computerSequence[i]){
-                return 'Right';
-            } else {
-                incorrectSound.play();
-                return 'Wrong'
-            }
+        var lastPositionInPlayerSequence = playerSequence.length - 1;
+        if (playerSequence[lastPositionInPlayerSequence] == computerSequence[lastPositionInPlayerSequence]){
+            return 'Right';
+        } else {
+            incorrectSound.play();
+            return 'Wrong'
         }
     }
     
 // function to check game status- game over or game continue
     function gameStatus(continueGame) {
+        check();
         if (check() == 'Right') {
             if (playerSequence.length < computerSequence.length) {
                 statusDisplay.html('Well done!');
             } else if (playerSequence.length == computerSequence.length){
+                statusDisplay.html('Next play! Get ready!');
                 scores++; 
                 sequenceLength++;
                 scoresId.html(scores);
-                console.log(scores);
-                console.log(sequenceLength);
-                setTimeout(continueGame, sequenceLength * 1500);
+                setTimeout(continueGame, 3000);
             }
         }    
         else if (check() == 'Wrong') {
