@@ -15,42 +15,43 @@ $(document).ready(function(){
     var scoresId = $('#scores');
     var scores = 0;
     var turn;
+    var playerSequence;
+    var computerSequence;
     var sequenceLength = 1;
    
 // Handling events
     red.on('click', function (){ 
-        play_sound(red, redSound);
+        playSound(red, redSound);
         recordAndCheckPlayerSequence(computerSequence, 'red');
     });
     green.on('click', function (){
-        play_sound(green, greenSound);
+        playSound(green, greenSound);
         recordAndCheckPlayerSequence(computerSequence, 'green');
     });
     yellow.on('click', function (){
-        play_sound(yellow, yellowSound);
+        playSound(yellow, yellowSound);
         recordAndCheckPlayerSequence(computerSequence, 'yellow');
     });
     blue.on('click', function (){
-        play_sound(blue, blueSound);
+        playSound(blue, blueSound);
         recordAndCheckPlayerSequence(computerSequence, 'blue');
     });
     newGame.on("click", playGame);
 
 // function to play sound and other effects
-    function play_sound(colorId, soundId) {
+    function playSound(colorId, soundId) {
         soundId.play();
         // shadow effect added
         colorId.addClass("shadow-effect");
         // shadow effect removed
-        setTimeout(no_shadow_effect, 100);
-        function no_shadow_effect(){
+        setTimeout(noShadowEffect, 100);
+        function noShadowEffect(){
             colorId.removeClass("shadow-effect");
         }
     }
 
 // Function to generate random color sequence for computer
     var colors = ["red", "green", "blue", "yellow"];
-    var computerSequence = [];
     function generateRandomColorSequence(sequenceLength) {
        for (var i=0; i<sequenceLength; i++) {
             var randomNumber = Math.floor(Math.random()*4);
@@ -64,58 +65,81 @@ $(document).ready(function(){
     function computerPlayRandomColorSequence(sequenceLength) {
         generateRandomColorSequence(sequenceLength);
         $.each(computerSequence, function(i) {
-            setTimeout(function(){
+            /*setTimeout(function(){
               $("#" + computerSequence[i]).click();   
+            }, i * 1000);*/
+            
+            /*if (computerSequence[i] == 'red') {
+                play_sound(red, redSound);
+            } else if (computerSequence[i] == 'yellow') {
+                play_sound(yellow, yellowSound);
+            } else if (computerSequence[i] == 'blue') {
+                play_sound(blue, blueSound);
+            } else {
+                play_sound(green, greenSound);
+            }*/
+            setTimeout(function(){
+                var colorId = $("#" + computerSequence[i]);
+                var soundId = $("#" + computerSequence[i] + "Sound")[0];
+              playSound(colorId, soundId);   
             }, i * 1000);
         });
     }
 
 // function to record and check player sequence 
-    var playerSequence = [];
     function recordAndCheckPlayerSequence(computerSequence, color) {
         if (playerSequence.length < computerSequence.length && turn == 'user'){
             statusDisplay.html('Playing...');
             playerSequence.push(color);
             console.log(playerSequence);
             check();
-            gameStatus();
+            gameStatus(playGame);
         } 
     }
     // function to check player sequence 
     function check(){
         for (var i=0; i<playerSequence.length; i++){
             if (playerSequence[i] == computerSequence[i]){
-                statusDisplay.html('Well done!');
+                return 'Right';
             } else {
                 incorrectSound.play();
-                console.log('Wrong');
-                statusDisplay.html('Oops! That\'s not right!<br>Game Over <br> Press "NEW GAME" to start the game.');
+                return 'Wrong'
             }
         }
     }
     
 // function to check game status- game over or game continue
-    function gameStatus() {
-        if (playerSequence.length == computerSequence.length) {
-            scores++; 
-            scoresId.html(scores);
-            sequenceLength++;
-            console.log(scores);
-            console.log(sequenceLength);
+    function gameStatus(continueGame) {
+        if (check() == 'Right') {
+            if (playerSequence.length < computerSequence.length) {
+                statusDisplay.html('Well done!');
+            } else if (playerSequence.length == computerSequence.length){
+                scores++; 
+                sequenceLength++;
+                scoresId.html(scores);
+                console.log(scores);
+                console.log(sequenceLength);
+                setTimeout(continueGame, sequenceLength * 1500);
+            }
+        }    
+        else if (check() == 'Wrong') {
+            statusDisplay.html('Oops! That\'s not right!<br>Game Over <br> Press "NEW GAME" to start the game.');
         }
     }
 
 // function to initiate simple simon game
     
     function playGame() {
+        computerSequence = [];
         turn = 'computer';
         statusDisplay.html('Computer playing...');
         computerPlayRandomColorSequence(sequenceLength);
         console.log(computerSequence); // testing in console
         
-        setTimeout(playerTurn, sequenceLength * 1005);
+        setTimeout(playerTurn, sequenceLength * 1100);
         
         function playerTurn () {
+            playerSequence = [];
             turn = 'user';
             statusDisplay.html('Your turn to play...');
         }
