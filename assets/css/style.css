@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------- Fonts */
-@import url('https://fonts.googleapis.com/css?family=Exo|Acme|Orbitron');
+@import url('https://fonts.googleapis.com/css?family=Exo:400,700|Acme|Orbitron');
 /*----------------------------------------------------------------- Body/HTML */
 body, html {
     box-sizing: border-box;
@@ -18,6 +18,10 @@ body, html {
 }
 #scores {
     font-family: 'Orbitron', sans-serif;
+}
+.displayRed {
+    font-family: 'Orbitron', sans-serif;
+    color: red;
 }
 /*-------------------------------------------------------------- Game Console */
 #console {
@@ -61,15 +65,18 @@ body, html {
 }
 /*--------------------------------------------------------------- Game Status */
 #status {
-    width: 200px;
-    height: 100px;
+    width: 250px;
+    height: 150px;
     border: 1px solid black;
     border-radius: 5px;
     margin: 10px auto;
     text-align: center;
-    padding-top: 40px;
+    padding-top: 20px;
 }
-
+.gameOver {
+    font-weight: 700;
+    font-size: 20px;
+}
 /*-------------------------------------------------------------- Game Options */
 #buttons {
     margin: 30px;

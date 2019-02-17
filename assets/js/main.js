@@ -75,13 +75,6 @@ $(document).ready(function(){
 
 // function to record and check player sequence 
     function recordAndCheckPlayerSequence(color) {
-        /*if (playerSequence.length < sequenceLength && turn == 'user'){
-            statusDisplay.html('Playing...');
-            playerSequence.push(color);
-            console.log(playerSequence);
-            check();
-            gameStatus(playGame);
-        } */
         playerSequence.push(color);
         gameStatus(playGame);
     }
@@ -111,7 +104,10 @@ $(document).ready(function(){
             }
         }    
         else if (check() == 'Wrong') {
-            statusDisplay.html('Oops! That\'s not right!<br>Game Over <br> Press "NEW GAME" to start the game.');
+            statusDisplay.html('<div class="gameOver">Game Over </div><br>Oops! That\'s not right!<br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
+            sequenceLength = 1;
+            scores = 0;
+            scoresId.html(scores);
         }
     }
 
