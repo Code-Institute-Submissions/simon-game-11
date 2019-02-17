@@ -20,23 +20,34 @@ $(document).ready(function(){
     var sequenceLength = 1;
    
 // Handling events
-    red.on('click', function (){ 
-        playSound(red, redSound);
-        recordAndCheckPlayerSequence('red');
-    });
-    green.on('click', function (){
-        playSound(green, greenSound);
-        recordAndCheckPlayerSequence('green');
-    });
-    yellow.on('click', function (){
-        playSound(yellow, yellowSound);
-        recordAndCheckPlayerSequence('yellow');
-    });
-    blue.on('click', function (){
-        playSound(blue, blueSound);
-        recordAndCheckPlayerSequence('blue');
-    });
+    function enableColorsClickEvents() {
+        red.on('click', function (){ 
+            playSound(red, redSound);
+            recordAndCheckPlayerSequence('red');
+        });
+        green.on('click', function (){
+            playSound(green, greenSound);
+            recordAndCheckPlayerSequence('green');
+        });
+        yellow.on('click', function (){
+            playSound(yellow, yellowSound);
+            recordAndCheckPlayerSequence('yellow');
+        });
+        blue.on('click', function (){
+            playSound(blue, blueSound);
+            recordAndCheckPlayerSequence('blue');
+        });
+    }
+ 
+    function disableColorClickEvents() {
+        red.off('click');
+        yellow.off('click');
+        green.off('click');
+        blue.off('click');
+    }
+    
     newGame.on("click", playGame);
+
 
 // function to play sound and other effects
     function playSound(colorId, soundId) {
@@ -63,6 +74,7 @@ $(document).ready(function(){
 // function to play given sequence
     // works perfectly in Mozilla firefox; no sound in Chrome - throws error: Uncaught (in promise) DOMException
     function computerPlayRandomColorSequence(sequenceLength) {
+        disableColorClickEvents();
         generateRandomColorSequence(sequenceLength);
         $.each(computerSequence, function(i) {
             setTimeout(function(){
@@ -85,7 +97,7 @@ $(document).ready(function(){
             return 'Right';
         } else {
             incorrectSound.play();
-            return 'Wrong'
+            return 'Wrong';
         }
     }
     
@@ -105,6 +117,7 @@ $(document).ready(function(){
         }    
         else if (check() == 'Wrong') {
             statusDisplay.html('<div class="gameOver">Game Over </div><br>Oops! That\'s not right!<br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
+            disableColorClickEvents();
             sequenceLength = 1;
             scores = 0;
             scoresId.html(scores);
@@ -114,8 +127,8 @@ $(document).ready(function(){
 // function to initiate simple simon game
     
     function playGame() {
-        computerSequence = [];
         turn = 'computer';
+        computerSequence = [];
         statusDisplay.html('Computer playing...');
         computerPlayRandomColorSequence(sequenceLength);
         console.log(computerSequence); // testing in console
@@ -126,6 +139,7 @@ $(document).ready(function(){
             playerSequence = [];
             turn = 'user';
             statusDisplay.html('Your turn to play...');
+            enableColorsClickEvents();
         }
     }
     
