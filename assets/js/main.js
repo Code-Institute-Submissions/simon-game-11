@@ -12,9 +12,10 @@ $(document).ready(function(){
     var incorrectSound = $('#incorrectSound')[0];
     var newGame = $("#newGame");
     var statusDisplay = $('#status');
-    var scores = $('#scores');
+    var scoresId = $('#scores');
+    var scores = 0;
     var turn;
-    var sequenceLength;
+    var sequenceLength = 1;
    
 // Handling events
     red.on('click', function (){ 
@@ -77,29 +78,38 @@ $(document).ready(function(){
             playerSequence.push(color);
             console.log(playerSequence);
             check();
+            gameStatus();
         } 
     }
     // function to check player sequence 
     function check(){
         for (var i=0; i<playerSequence.length; i++){
             if (playerSequence[i] == computerSequence[i]){
-                console.log('Right');
-                return 'Right'
+                statusDisplay.html('Well done!');
             } else {
                 incorrectSound.play();
                 console.log('Wrong');
-                return 'Wrong'
+                statusDisplay.html('Oops! That\'s not right!<br>Game Over <br> Press "NEW GAME" to start the game.');
             }
         }
     }
-
+    
+// function to check game status- game over or game continue
+    function gameStatus() {
+        if (playerSequence.length == computerSequence.length) {
+            scores++; 
+            scoresId.html(scores);
+            sequenceLength++;
+            console.log(scores);
+            console.log(sequenceLength);
+        }
+    }
 
 // function to initiate simple simon game
     
     function playGame() {
         turn = 'computer';
         statusDisplay.html('Computer playing...');
-        sequenceLength = 1;
         computerPlayRandomColorSequence(sequenceLength);
         console.log(computerSequence); // testing in console
         
