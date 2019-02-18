@@ -15,6 +15,7 @@ $(document).ready(function(){
     var scoresId = $('#scores');
     var off = $("#off");
     var easy = $("#easy");
+    var countdown = $("#countdown");
     var scores = 0;
     var playerSequence;
     var computerSequence;
@@ -22,7 +23,8 @@ $(document).ready(function(){
     var continueGameTimer;
     var strictMode;
     var difficultyLevel;
-
+    var clicked;
+    
 // functions to check game options selected by player
     function strictModeOption() {
         if (off.is(":checked")){
@@ -39,22 +41,53 @@ $(document).ready(function(){
         }
     }
 
-   
+// Countdown for Hard level
+    function countdownForHardLevel() {
+        if (difficultyLevel == 'hard') {
+            var counter = 10;
+            var interval = setInterval(function() {
+                counter--;
+                countdown.html(counter);
+                if (counter == 0 && clicked == false) {
+                    incorrectSound.play();
+                    disableColorClickEvents();
+                    clearInterval(interval);
+                    statusDisplay.html('<div class="gameOver">Time Up! </div>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
+                    sequenceLength = 1;
+                    scores = 0;
+                    scoresId.html(scores);
+                } else if (clicked == true) {
+                    console.log('I detected clicked is true');
+                    clearInterval(interval);
+                    countdown.html('0');
+                }
+            }, 1200) // 1.2s used instead of 1s to slightly slow down the timer
+        }
+    }
+
 // Handling events
     function enableColorsClickEvents() {
         red.on('click', function (){ 
+            clicked = true;
+            console.log(clicked);
             playSound(red, redSound);
             recordAndCheckPlayerSequence('red');
         });
         green.on('click', function (){
+            clicked = true;
+            console.log(clicked);
             playSound(green, greenSound);
             recordAndCheckPlayerSequence('green');
         });
         yellow.on('click', function (){
+            clicked = true;
+            console.log(clicked);
             playSound(yellow, yellowSound);
             recordAndCheckPlayerSequence('yellow');
         });
         blue.on('click', function (){
+            clicked = true;
+            console.log(clicked);
             playSound(blue, blueSound);
             recordAndCheckPlayerSequence('blue');
         });
@@ -170,7 +203,8 @@ $(document).ready(function(){
             playerSequence = [];
             statusDisplay.html('Your turn to play...');
             enableColorsClickEvents();
+            clicked = false;
+            countdownForHardLevel();
         }
     }
-    
 });
