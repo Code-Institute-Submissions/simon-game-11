@@ -59,7 +59,7 @@ $(document).ready(function(){
                 } else if (clicked == true) {
                     console.log('I detected clicked is true');
                     clearInterval(interval);
-                    countdown.html('0');
+                    countdown.html('-');
                 }
             }, 1200) // 1.2s used instead of 1s to slightly slow down the timer
         }
@@ -172,7 +172,7 @@ $(document).ready(function(){
                     scores++;
                     scoresId.html(scores);
                     sequenceLength++;
-                    playGame();
+                    continuePlaying();
                     }, 1500);
             } else {
                 console.log(playerSequence.length + " " +computerSequence.length);
@@ -180,10 +180,16 @@ $(document).ready(function(){
             }
         }    
         else {
-            statusDisplay.html('<div class="gameOver">Game Over </div><br>Oops! That\'s not right!<br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
-            sequenceLength = 1;
-            scores = 0;
-            scoresId.html(scores);
+            if (strictMode == 'on') {
+                statusDisplay.html('<div class="gameOver">Game Over </div><br>Oops! That\'s not right!<br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
+                sequenceLength = 1;
+                scores = 0;
+                scoresId.html(scores);
+            } else {
+                statusDisplay.html("<div class='gameOver'>Oops! Not quite right!<br><br> Let's have another try! </div>");
+                setTimeout(continuePlaying, 4000);
+            }
+            
         }
     }
 
@@ -192,19 +198,27 @@ $(document).ready(function(){
     function playGame() {
         console.log(difficultyLevelOption());
         console.log(strictModeOption());
-        computerSequence = [];
-        statusDisplay.html('Computer playing...');
-        computerPlayRandomColorSequence(sequenceLength);
-        console.log(computerSequence); // testing in console
-        
-        setTimeout(playerTurn, sequenceLength * 1100);
-        
-        function playerTurn () {
-            playerSequence = [];
-            statusDisplay.html('Your turn to play...');
-            enableColorsClickEvents();
-            clicked = false;
-            countdownForHardLevel();
-        }
+        continuePlaying();
     }
+    
+    // function to continue the game
+
+    function continuePlaying() {
+            computerSequence = [];
+            statusDisplay.html('Computer playing...');
+            computerPlayRandomColorSequence(sequenceLength);
+            console.log(computerSequence); // testing in console
+            
+            setTimeout(playerTurn, sequenceLength * 1100);
+            
+            function playerTurn () {
+                playerSequence = [];
+                statusDisplay.html('Your turn to play...');
+                enableColorsClickEvents();
+                clicked = false;
+                countdownForHardLevel();
+            }
+        }
+            
 });
+
