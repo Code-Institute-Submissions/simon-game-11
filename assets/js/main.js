@@ -13,11 +13,32 @@ $(document).ready(function(){
     var newGame = $("#newGame");
     var statusDisplay = $('#status');
     var scoresId = $('#scores');
+    var off = $("#off");
+    var easy = $("#easy");
     var scores = 0;
     var playerSequence;
     var computerSequence;
     var sequenceLength = 1;
     var continueGameTimer;
+    var strictMode;
+    var difficultyLevel;
+
+// functions to check game options selected by player
+    function strictModeOption() {
+        if (off.is(":checked")){
+            return strictMode = 'off';
+        } else {
+            return strictMode = 'on';
+        }
+    }
+    function difficultyLevelOption() {
+        if (easy.is(":selected")){
+            return difficultyLevel = 'easy';
+        } else {
+            return difficultyLevel = 'hard';
+        }
+    }
+
    
 // Handling events
     function enableColorsClickEvents() {
@@ -136,6 +157,8 @@ $(document).ready(function(){
 // function to initiate simple simon game
     
     function playGame() {
+        console.log(difficultyLevelOption());
+        console.log(strictModeOption());
         computerSequence = [];
         statusDisplay.html('Computer playing...');
         computerPlayRandomColorSequence(sequenceLength);
