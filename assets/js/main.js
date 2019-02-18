@@ -24,6 +24,36 @@ $(document).ready(function(){
     var strictMode;
     var difficultyLevel;
     var clicked;
+    var trophy = $('.fa-trophy');
+    var typeOfAward = $('#award-type');
+    var award = $('#award');
+
+// function for awarding player 
+    function awardType() {
+        if (scores >= 10) {
+           trophy.css('color','#cd7f32');
+           typeOfAward.html('Bronze');
+           award.css('display', 'block');
+        } else if (scores >= 25) {
+           trophy.css('color','silver');
+           typeOfAward.html('Silver');
+           award.css('display', 'block');
+        } else if (scores >= 50) {
+           trophy.css('color','gold');
+           typeOfAward.html('Gold'); 
+           award.css('display', 'block');
+        } else if (scores >= 75) {
+           trophy.css('color','#e5e4e2');
+           typeOfAward.html('Platinum');
+           award.css('display', 'block');
+        } else if (scores >= 100) {
+           trophy.css('color','#b9f2ff;');
+           typeOfAward.html('Diamond'); 
+           award.css('display', 'block');
+        } else {
+            award.css('display', 'none');
+        }
+    }
     
 // functions to check game options selected by player
     function strictModeOption() {
@@ -204,21 +234,22 @@ $(document).ready(function(){
     // function to continue the game
 
     function continuePlaying() {
-            computerSequence = [];
-            statusDisplay.html('Computer playing...');
-            computerPlayRandomColorSequence(sequenceLength);
-            console.log(computerSequence); // testing in console
-            
-            setTimeout(playerTurn, sequenceLength * 1100);
-            
-            function playerTurn () {
-                playerSequence = [];
-                statusDisplay.html('Your turn to play...');
-                enableColorsClickEvents();
-                clicked = false;
-                countdownForHardLevel();
-            }
+        awardType();
+        computerSequence = [];
+        statusDisplay.html('Computer playing...');
+        computerPlayRandomColorSequence(sequenceLength);
+        console.log(computerSequence); // testing in console
+        
+        setTimeout(playerTurn, sequenceLength * 1100);
+        
+        function playerTurn () {
+            playerSequence = [];
+            statusDisplay.html('Your turn to play...');
+            enableColorsClickEvents();
+            clicked = false;
+            countdownForHardLevel();
         }
+    }
             
 });
 
