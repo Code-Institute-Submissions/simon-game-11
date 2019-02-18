@@ -14,10 +14,10 @@ $(document).ready(function(){
     var statusDisplay = $('#status');
     var scoresId = $('#scores');
     var scores = 0;
-    var turn;
     var playerSequence;
     var computerSequence;
     var sequenceLength = 1;
+    var continueGameTimer;
    
 // Handling events
     function enableColorsClickEvents() {
@@ -88,36 +88,45 @@ $(document).ready(function(){
 // function to record and check player sequence 
     function recordAndCheckPlayerSequence(color) {
         playerSequence.push(color);
-        gameStatus(playGame);
+        gameStatus();
     }
+
     // function to check player sequence 
     function check(){
         var lastPositionInPlayerSequence = playerSequence.length - 1;
-        if (playerSequence[lastPositionInPlayerSequence] == computerSequence[lastPositionInPlayerSequence]){
+        if (playerSequence[lastPositionInPlayerSequence] == computerSequence[lastPositionInPlayerSequence] && playerSequence.length <= computerSequence.length){
             return 'Right';
         } else {
+            disableColorClickEvents();
+            console.log('I was here' + playerSequence)
             incorrectSound.play();
+            clearTimeout(continueGameTimer);
             return 'Wrong';
         }
     }
     
 // function to check game status- game over or game continue
-    function gameStatus(continueGame) {
+    function gameStatus() {
         check();
         if (check() == 'Right') {
             if (playerSequence.length < computerSequence.length) {
                 statusDisplay.html('Well done!');
             } else if (playerSequence.length == computerSequence.length){
+                console.log('I was here also' + playerSequence)
                 statusDisplay.html('Next play! Get ready!');
-                scores++; 
-                sequenceLength++;
-                scoresId.html(scores);
-                setTimeout(continueGame, 3000);
+                continueGameTimer = setTimeout(function(){
+                    scores++;
+                    scoresId.html(scores);
+                    sequenceLength++;
+                    playGame();
+                    }, 1500);
+            } else {
+                console.log(playerSequence.length + " " +computerSequence.length);
+                 return check() == 'Wrong';
             }
         }    
-        else if (check() == 'Wrong') {
+        else {
             statusDisplay.html('<div class="gameOver">Game Over </div><br>Oops! That\'s not right!<br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
-            disableColorClickEvents();
             sequenceLength = 1;
             scores = 0;
             scoresId.html(scores);
@@ -127,7 +136,6 @@ $(document).ready(function(){
 // function to initiate simple simon game
     
     function playGame() {
-        turn = 'computer';
         computerSequence = [];
         statusDisplay.html('Computer playing...');
         computerPlayRandomColorSequence(sequenceLength);
@@ -137,7 +145,6 @@ $(document).ready(function(){
         
         function playerTurn () {
             playerSequence = [];
-            turn = 'user';
             statusDisplay.html('Your turn to play...');
             enableColorsClickEvents();
         }
