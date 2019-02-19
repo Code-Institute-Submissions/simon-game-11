@@ -25,6 +25,13 @@ $(document).ready(function(){
     var trophy = $('.fa-trophy');
     var typeOfAward = $('#award-type');
     var award = $('#award');
+    var exitGame = $('#exit');
+    var exitGameButtonClicked;
+    var yes = $('#yes');
+    var no = $('#no');
+    var computerPlaying;
+    
+
 
 // function for awarding player 
     function awardType() {
@@ -121,9 +128,38 @@ $(document).ready(function(){
         green.off('click');
         blue.off('click');
     }
+ 
+// function to disable exit game button
+    function disableExitGameOption() {
+        exitGame.off("click");
+    }
+// function to enable exit game button
+function enableExitGameOption() {
+        exitGame.on("click", endGame);
+    }
     
+// function to start new game    
     newGame.on("click", playGame);
+    
+// following source helped me understand why click was not working on dynamically created buttons
+// https://www.tutorialrepublic.com/faq/how-to-bind-click-event-to-dynamically-added-elements-in-jquery.php
+    $(document).on("click", "button#yes", yesEndGame);
+    $(document).on("click", "button#no", noEndGame);
+    
 
+// function to end game
+    function endGame() {
+        statusDisplay.html('<div class="gameOver">Are you sure?</div><br><button type="button" id="yes">yes</button><button type="button" id="no">no</button>');
+    }
+    function yesEndGame() {
+        console.log('I was clicked yes');
+        statusDisplay.html('<div class="gameOver">Game Over </div><br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
+        disableExitGameOption();
+    }
+    function noEndGame() {
+        console.log('I was not clicked')
+        continuePlaying();
+    }
 
 // function to play sound and other effects
     function playSound(colorId, soundId) {
@@ -151,14 +187,16 @@ $(document).ready(function(){
     // works perfectly in Mozilla firefox; no sound in Chrome - throws error: Uncaught (in promise) DOMException
     function computerPlayRandomColorSequence(sequenceLength) {
         disableColorClickEvents();
+        disableExitGameOption();
         generateRandomColorSequence(sequenceLength);
         $.each(computerSequence, function(i) {
-            setTimeout(function(){
-                var colorId = $("#" + computerSequence[i]);
-                var soundId = $("#" + computerSequence[i] + "Sound")[0];
-              playSound(colorId, soundId);   
-            }, i * 1000);
-        });
+            computerPlaying = setTimeout(function(){
+                    var colorId = $("#" + computerSequence[i]);
+                    var soundId = $("#" + computerSequence[i] + "Sound")[0];
+                  playSound(colorId, soundId);   
+                }, i * 1000);
+            });
+        
     }
 
 // function to record and check player sequence 
@@ -214,6 +252,8 @@ $(document).ready(function(){
             
         }
     }
+// function called to disable exit game button when game is not played
+disableExitGameOption();
 
 // function to initiate simple simon game
     
@@ -237,6 +277,7 @@ $(document).ready(function(){
             playerSequence = [];
             statusDisplay.html('Your turn to play...');
             enableColorsClickEvents();
+            enableExitGameOption();
             clicked = false;
             countdownForHardLevel();
         }

@@ -91,6 +91,11 @@ body, html {
     font-weight: 700;
     font-size: 20px;
 }
+#yes, #no {
+    margin: 0px 10px;
+    padding: 5px;
+    text-transform: uppercase;
+}
 /*-------------------------------------------------------------- Game Options */
 #buttons {
     margin: 30px;
