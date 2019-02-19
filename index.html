@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.3.0/jasmine.css" type="text/css" />
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.3.0/jasmine.css" type="text/css" />-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.2.1/font-awesome-animation.css" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
     <title>Simon Game</title>
 </head>
 <body>
     <h1 class="heading">Simon Game</h1>
+    
     <main>
         <!--- Awards- Bronze: 10 / Silver: 25 / Gold: 50 / Platinum: 75 / Diamond: 100 -->
         <div id="award"><span id="award-type"></span><i class="fa fa-trophy faa-float animated faa-slow" aria-hidden="true"></i></div>
@@ -26,16 +28,41 @@
             <div id="blue" class="color-btn"></div>
         </div>
         <!--- Game status -->
-        <div id="status">Press 'NEW GAME' to start the game.</div>
+        <div id="status">Press 'START' to begin the game.</div>
         <!--- Game options -->
-        <div id="buttons">
-            <button type="button" id="newGame">NEW GAME</button>
-            <button type="button" id="exit">EXIT</button>
+        <div class="buttons">
+            <button type="button" class="btn btn-outline-dark" id="newGame">Start</button>
+            <button type="button" class="btn btn-outline-dark" id="exit">Exit</button>
         </div>
-        <div class="options"> Level of difficulty:
-        <input type="radio" name="mode" value="Easy" id="easy" checked> Easy
-        <input type="radio" name="mode" value="Hard" id="hard" > Hard
+        <div class="buttons">
+            <button type="button" class="btn btn-outline-dark" id="mode" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Mode</button>
+            <button type="button" class="btn btn-outline-dark" id="help">Help</button>
         </div>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                <p class="options">Select game mode:</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary active">
+                        <input type="radio" name="options" id="easy" autocomplete="off" checked> Easy
+                    </label>
+                    <label class="btn btn-secondary">
+                        <input type="radio" name="options" id="hard" autocomplete="off"> Hard
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <!--<form>
+            <p class="options">Level of difficulty:</p>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="mode" id="easy" value="easy" checked>
+              <label class="form-check-label" for="easy">Easy</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" name="mode" type="radio" id="hard" value="hard">
+              <label class="form-check-label" for="hard">Hard</label>
+            </div>
+        </form>-->
     </main>
     <!--- Game audio files preloaded -->
     <audio preload="auto" id="greenSound"><source src="/assets/audio/piano_a3.mp3"></source></audio>
@@ -44,10 +71,13 @@
     <audio preload="auto" id="blueSound"><source src="/assets/audio/piano_d5.mp3"></source></audio>
     <audio preload="auto" id="incorrectSound"><source src="/assets/audio/incorrect_answer.mp3"></source></audio>
     <!--- Script files -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.3.0/jasmine.js"></script>
+    <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.3.0/jasmine.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.3.0/jasmine-html.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.3.0/boot.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.3.0/boot.js"></script>-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="assets/js/game.js"></script>
     <script type="text/javascript" src="/spec/gameSpec.js"></script>
 </body>
