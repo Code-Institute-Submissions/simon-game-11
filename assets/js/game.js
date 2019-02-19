@@ -13,7 +13,6 @@ $(document).ready(function(){
     var newGame = $("#newGame");
     var statusDisplay = $('#status');
     var scoresId = $('#scores');
-    var off = $("#off");
     var easy = $("#easy");
     var countdown = $("#countdown");
     var scores = 0;
@@ -21,7 +20,6 @@ $(document).ready(function(){
     var computerSequence;
     var sequenceLength = 1;
     var continueGameTimer;
-    var strictMode;
     var difficultyLevel;
     var clicked;
     var trophy = $('.fa-trophy');
@@ -56,15 +54,9 @@ $(document).ready(function(){
     }
     
 // functions to check game options selected by player
-    function strictModeOption() {
-        if (off.is(":checked")){
-            return strictMode = 'off';
-        } else {
-            return strictMode = 'on';
-        }
-    }
+    
     function difficultyLevelOption() {
-        if (easy.is(":selected")){
+        if (easy.is(":checked")){
             return difficultyLevel = 'easy';
         } else {
             return difficultyLevel = 'hard';
@@ -210,7 +202,7 @@ $(document).ready(function(){
             }
         }    
         else {
-            if (strictMode == 'on') {
+            if (difficultyLevel == 'hard') {
                 statusDisplay.html('<div class="gameOver">Game Over </div><br>Oops! That\'s not right!<br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
                 sequenceLength = 1;
                 scores = 0;
@@ -227,7 +219,6 @@ $(document).ready(function(){
     
     function playGame() {
         console.log(difficultyLevelOption());
-        console.log(strictModeOption());
         continuePlaying();
     }
     
