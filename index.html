@@ -12,7 +12,7 @@
     <title>Simon Game</title>
 </head>
 <body>
-    <h1 class="heading">Simon Game</h1>
+    <h1 class="heading text-center">Simon Game</h1>
     
     <main>
         <!--- Awards- Bronze: 10 / Silver: 25 / Gold: 50 / Platinum: 75 / Diamond: 100 -->
@@ -36,7 +36,7 @@
         </div>
         <div class="buttons">
             <button type="button" class="btn btn-outline-dark" id="mode" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Mode</button>
-            <button type="button" class="btn btn-outline-dark" id="help">Help</button>
+            <button type="button" class="btn btn-outline-dark" id="help" data-toggle="modal" data-target="#exampleModalScrollable">Help</button>
         </div>
         <div class="collapse" id="collapseExample">
             <div class="card card-body">
@@ -51,18 +51,48 @@
                 </div>
             </div>
         </div>
-        
-        <!--<form>
-            <p class="options">Level of difficulty:</p>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="mode" id="easy" value="easy" checked>
-              <label class="form-check-label" for="easy">Easy</label>
+<!-- game instructions was mainly taken from following source and then personalised for the game designed -->
+<!-- CREDIT: file:///C:/Users/MARIA/Documents/New%20documents/Web%20Development%20Course/PROJECTS/Project%202%20-%20IK/Simon.PDF -->
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle"><strong>How To Play</strong></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <em>Single player game</em><br><br>
+                  <h6>OBJECT:</h6>  
+                  <p>Correctly repeat a longer and longer sequence of signals.</p>
+                  <p>Follow the steps below:</p>
+                  <ol>
+                      <li>Select game mode by pressing MODE button. You can choose EASY or HARD. In EASY mode, you 
+                      can continue the game even if you make mistake. In HARD mode, game is over if you make a mistake.
+                      Moreover, you have 10 seconds to start your sequence or your time is up.</li>
+                      <li>Once game mode is selected, press the START button. Simon will give the first signal. Repeat the signal by pressing
+                      the same colour lens.</li>
+                      <li>Simon will then give two signals and so on. Keep repeating the signals by pressing the same 
+                      colour lenses, in order.</li>
+                      <li>Continue playing as long as you can repeat each sequence of signals correctly.</li>
+                      <li>If you fail to repeat a sequence, Simon responds with 'RAZZ' sound. In hard mode, this means game is over
+                      and your scores will be displayed. In easy mode, you are still in the game and Simon will play another sequence for you
+                      to try again.</li>
+                  </ol>
+                  <h6>AWARDS:</h6>
+                  <ul>
+                      <li>If you score 10+, you get Bronze cup.</li>
+                      <li>If you score 25+, you get Silver cup.</li>
+                      <li>If you score 50+, you get Gold cup.</li>
+                      <li>If you score 75+, you get Platinum cup.</li>
+                      <li>If you score 100+, you get Diamond cup.</li>
+                  </ul>
+              </div>
             </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" name="mode" type="radio" id="hard" value="hard">
-              <label class="form-check-label" for="hard">Hard</label>
-            </div>
-        </form>-->
+          </div>
+        </div>
     </main>
     <!--- Game audio files preloaded -->
     <audio preload="auto" id="greenSound"><source src="/assets/audio/piano_a3.mp3"></source></audio>
