@@ -36,7 +36,7 @@ $(document).ready(function(){
 // function for awarding player 
     function awardType() {
         if (scores >= 10) {
-           trophy.css('color','#cd7f32');
+           trophy.css({'color':'#cd7f32', 'display':'block'});
            typeOfAward.html('Bronze');
            award.css('display', 'block');
         } else if (scores >= 25) {

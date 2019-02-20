@@ -12,15 +12,20 @@
     <title>Simon Game</title>
 </head>
 <body>
-    <h1 class="heading text-center">Simon Game</h1>
-    
     <main>
-        <!--- Awards- Bronze: 10 / Silver: 25 / Gold: 50 / Platinum: 75 / Diamond: 100 -->
-        <div id="award"><span id="award-type"></span><i class="fa fa-trophy faa-float animated faa-slow" aria-hidden="true"></i></div>
-        <!--- Countdown for Hard level -->
-        <div id="countdown"></div>
+        <h1 class="heading text-center">Simon Game</h1>
+        <section class="container">
+            <div class="row text-center">
+                <!--- Scores -->
+                <div class="col-4 col-sm-4 display-row"> Scores <div class="display-entry" id="scores">-</div></div>
+                <!--- Awards -->
+                <div class="col-4 col-sm-4 display-row"><div id="award-type">Award </div><i class="display-entry fa fa-trophy faa-float animated faa-slow" aria-hidden="true"></i></div>
+                <!--- Timer -->
+                <div class="col-4 col-sm-4 display-row"> Timer <div class="display-entry" id="countdown">-</div></div>
+            </div>
+        </section>
+        
         <!--- Game console -->
-        <div id="score-container">Scores: <span id="scores">0</span></div>
         <div id="console">
             <div id="green" class="color-btn"></div>
             <div id="red" class="color-btn"></div>
@@ -35,10 +40,24 @@
             <button type="button" class="btn btn-outline-dark" id="exit">Exit</button>
         </div>
         <div class="buttons">
-            <button type="button" class="btn btn-outline-dark" id="mode" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Mode</button>
+            <div class="btn-group dropup ">
+                <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Mode
+                </button>
+                <div class="dropdown-menu">
+                    <label class="dropdown-item btn btn-secondary active">
+                        <input type="radio" name="options" id="easy" autocomplete="off" checked> Easy
+                    </label>
+                    <label class="dropdown-item btn btn-secondary">
+                        <input type="radio" name="options" id="hard" autocomplete="off"> Hard
+                    </label>
+                </div>
+            </div>
             <button type="button" class="btn btn-outline-dark" id="help" data-toggle="modal" data-target="#exampleModalScrollable">Help</button>
         </div>
-        <div class="collapse" id="collapseExample">
+        
+        
+        <!--<div class="collapse" id="collapseExample">
             <div class="card card-body">
                 <p class="options">Select game mode:</p>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -50,7 +69,7 @@
                     </label>
                 </div>
             </div>
-        </div>
+        </div>-->
 <!-- game instructions was mainly taken from following source and then personalised for the game designed -->
 <!-- CREDIT: file:///C:/Users/MARIA/Documents/New%20documents/Web%20Development%20Course/PROJECTS/Project%202%20-%20IK/Simon.PDF -->
         <!-- Modal -->
