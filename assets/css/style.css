@@ -6,7 +6,18 @@ body, html {
     background-color: black; 
     color: #adb5bd;
 }
-
+.header {
+    height: 15vh;
+}
+.score-block {
+    height: 15vh;
+}
+.console-block {
+    height: 35vh;
+}
+.status-block {
+    height: 35vh;
+}
 /*------------------------------------------------------------------- Heading */
 .heading {
     font-family: 'Acme', sans-serif;
@@ -55,28 +66,21 @@ body, html {
     padding: 5px;
     border-radius: 10px;
 }
-#green {
+#green, #red, #blue, #yellow {
     width: 80px;
     height: 80px;
     border-radius: 10px;
+}
+#green {
     background-color: green;
 }
 #red {
-    width: 80px;
-    height: 80px;
-    border-radius: 10px;
     background-color: red;
 }
 #yellow {
-    width: 80px;
-    height: 80px;
-    border-radius: 10px;
     background-color: yellow;
 }
 #blue {
-    width: 80px;
-    height: 80px;
-    border-radius: 10px;
     background-color: blue;
 }
 .color-btn{
@@ -92,9 +96,9 @@ body, html {
     width: 300px;
     height: 100px;
     border-radius: 5px;
-    margin: 10px auto;
+    margin: 5px auto;
     text-align: center;
-    padding-top: 20px;
+    padding: 5px;
 }
 .gameOver {
     font-weight: 700;
@@ -107,33 +111,31 @@ body, html {
 }
 /*-------------------------------------------------------------- Game Options */
 .buttons {
-    margin-top: 30px;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
 }
 .buttons button {
-    width: 100px;
+    margin:10px;
+    width: 80px;
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
-}
-#newGame, #exit {
-    width: 100px;
-    font-size: 15px;
+    font-size: 14px;
     padding: 5px;
-    margin-top: 20px;
 }
-.options {
-    font-size: 20px;
-    margin: 20px;
-}
-.modal-body {
+.modal-content {
     letter-spacing: 1px;
     word-spacing: 2px;
+    color: black;
+}
+.modal-body {
+    background-color: #f8f9fa;
 }
 .modal-body p {
-    font-size: 16px;
-}
-.modal-body li {
     font-size: 14px;
 }
+.modal-body li {
+    font-size: 12px;
+}
+
+

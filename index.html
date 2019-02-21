@@ -12,29 +12,33 @@
     <title>Simon Game</title>
 </head>
 <body>
-    <main>
+    <!--- Header -->
+    <header class="header">
         <h1 class="heading text-center">Simon Game</h1>
-        <section class="container">
-            <div class="row text-center">
-                <!--- Scores -->
-                <div class="col-4 col-sm-4 display-row"> Scores <div class="display-entry" id="scores">-</div></div>
-                <!--- Awards -->
-                <div class="col-4 col-sm-4 display-row"><div id="award-type">Award </div><i class="display-entry fa fa-trophy faa-float animated faa-slow" aria-hidden="true"></i></div>
-                <!--- Timer -->
-                <div class="col-4 col-sm-4 display-row"> Timer <div class="display-entry" id="countdown">-</div></div>
-            </div>
-        </section>
-        
-        <!--- Game console -->
+    </header>
+    <!--- Game Scores -->
+    <section class="container score-block">
+        <div class="row text-center">
+            <!--- Scores -->
+            <div class="col-4 col-sm-4 display-row"> Scores <div class="display-entry" id="scores">-</div></div>
+            <!--- Awards -->
+            <div class="col-4 col-sm-4 display-row"><div id="award-type">Award </div><i class="display-entry fa fa-trophy faa-float animated faa-slow" aria-hidden="true"></i></div>
+            <!--- Timer -->
+            <div class="col-4 col-sm-4 display-row"> Timer <div class="display-entry" id="countdown">-</div></div>
+        </div>
+    </section>
+    <!--- Game console -->
+    <section class="console-block">
         <div id="console">
             <div id="green" class="color-btn"></div>
             <div id="red" class="color-btn"></div>
             <div id="yellow" class="color-btn"></div>
             <div id="blue" class="color-btn"></div>
         </div>
-        <!--- Game status -->
+    </section>
+    <!--- Game status/options -->
+    <section class="status-block">
         <div id="status">Press 'START' to begin the game.</div>
-        <!--- Game options -->
         <div class="buttons">
             <button type="button" class="btn btn-outline-dark" id="newGame">Start</button>
             <button type="button" class="btn btn-outline-dark" id="exit">Exit</button>
@@ -55,64 +59,50 @@
             </div>
             <button type="button" class="btn btn-outline-dark" id="help" data-toggle="modal" data-target="#exampleModalScrollable">Help</button>
         </div>
-        
-        
-        <!--<div class="collapse" id="collapseExample">
-            <div class="card card-body">
-                <p class="options">Select game mode:</p>
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-secondary active">
-                        <input type="radio" name="options" id="easy" autocomplete="off" checked> Easy
-                    </label>
-                    <label class="btn btn-secondary">
-                        <input type="radio" name="options" id="hard" autocomplete="off"> Hard
-                    </label>
-                </div>
-            </div>
-        </div>-->
+    </section>
 <!-- game instructions was mainly taken from following source and then personalised for the game designed -->
 <!-- CREDIT: file:///C:/Users/MARIA/Documents/New%20documents/Web%20Development%20Course/PROJECTS/Project%202%20-%20IK/Simon.PDF -->
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle"><strong>How To Play</strong></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                  <em>Single player game</em><br><br>
-                  <h6>OBJECT:</h6>  
-                  <p>Correctly repeat a longer and longer sequence of signals.</p>
-                  <p>Follow the steps below:</p>
-                  <ol>
-                      <li>Select game mode by pressing MODE button. You can choose EASY or HARD. In EASY mode, you 
-                      can continue the game even if you make mistake. In HARD mode, game is over if you make a mistake.
-                      Moreover, you have 10 seconds to start your sequence or your time is up.</li>
-                      <li>Once game mode is selected, press the START button. Simon will give the first signal. Repeat the signal by pressing
-                      the same colour lens.</li>
-                      <li>Simon will then give two signals and so on. Keep repeating the signals by pressing the same 
-                      colour lenses, in order.</li>
-                      <li>Continue playing as long as you can repeat each sequence of signals correctly.</li>
-                      <li>If you fail to repeat a sequence, Simon responds with 'RAZZ' sound. In hard mode, this means game is over
-                      and your scores will be displayed. In easy mode, you are still in the game and Simon will play another sequence for you
-                      to try again.</li>
-                  </ol>
-                  <h6>AWARDS:</h6>
-                  <ul>
-                      <li>If you score 10+, you get Bronze cup.</li>
-                      <li>If you score 25+, you get Silver cup.</li>
-                      <li>If you score 50+, you get Gold cup.</li>
-                      <li>If you score 75+, you get Platinum cup.</li>
-                      <li>If you score 100+, you get Diamond cup.</li>
-                  </ul>
-              </div>
-            </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalScrollableTitle"><strong>How To Play</strong></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <em>Single player game</em><br><br>
+              <h6>OBJECT:</h6>  
+              <p>Correctly repeat a longer and longer sequence of signals.</p>
+              <p>Follow the steps below:</p>
+              <ol>
+                  <li>Select game mode by pressing MODE button. You can choose EASY or HARD. In EASY mode, you 
+                  can continue the game even if you make mistake. In HARD mode, game is over if you make a mistake.
+                  Moreover, you have 10 seconds to start your sequence or your time is up.</li>
+                  <li>Once game mode is selected, press the START button. Simon will give the first signal. Repeat the signal by pressing
+                  the same colour lens.</li>
+                  <li>Simon will then give two signals and so on. Keep repeating the signals by pressing the same 
+                  colour lenses, in order.</li>
+                  <li>Continue playing as long as you can repeat each sequence of signals correctly.</li>
+                  <li>If you fail to repeat a sequence, Simon responds with 'RAZZ' sound. In hard mode, this means game is over
+                  and your scores will be displayed. In easy mode, you are still in the game and Simon will play another sequence for you
+                  to try again.</li>
+              </ol>
+              <h6>AWARDS:</h6>
+              <ul>
+                  <li>If you score 10+, you get Bronze cup.</li>
+                  <li>If you score 25+, you get Silver cup.</li>
+                  <li>If you score 50+, you get Gold cup.</li>
+                  <li>If you score 75+, you get Platinum cup.</li>
+                  <li>If you score 100+, you get Diamond cup.</li>
+              </ul>
           </div>
         </div>
-    </main>
+      </div>
+    </div>
+    
     <!--- Game audio files preloaded -->
     <audio preload="auto" id="greenSound"><source src="/assets/audio/piano_a3.mp3"></source></audio>
     <audio preload="auto" id="redSound"><source src="/assets/audio/piano_d3.mp3"></source></audio>
