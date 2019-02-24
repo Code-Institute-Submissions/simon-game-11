@@ -1,78 +1,139 @@
 $(document).ready(function(){
 
-// Global variables    
+// VARIABLES
+    // scores/timer/award 
+    var scoresId = $('#scores');
+    var countdown = $("#countdown");
+    var scores = 0;
+    var trophy = $('.fa-trophy');
+    var typeOfAward = $('#award-type');
+    // coloured buttons
     var red = $('#red');
     var green = $('#green');
     var blue = $('#blue');
     var yellow = $('#yellow');
+    // audio files 
     var redSound = $('#redSound')[0];
     var greenSound = $('#greenSound')[0];
     var blueSound = $('#blueSound')[0];
     var yellowSound = $('#yellowSound')[0];
     var incorrectSound = $('#incorrectSound')[0];
-    var newGame = $("#newGame");
+    // game status
     var statusDisplay = $('#status');
-    var scoresId = $('#scores');
+    var computerPlaying;
+    // game options
+    var newGame = $("#newGame");
+    var exitGame = $('#exit');
+    var exitGameButtonClicked;
     var easy = $("#easy");
-    var countdown = $("#countdown");
-    var scores = 0;
+    var continueGameTimer;
+    var mode;
+    var yes = $('#yes');
+    var no = $('#no');
+    var clicked;
+    // sequences
     var playerSequence;
     var computerSequence;
     var sequenceLength = 1;
-    var continueGameTimer;
-    var difficultyLevel;
-    var clicked;
-    var trophy = $('.fa-trophy');
-    var typeOfAward = $('#award-type');
-    var award = $('#award');
-    var exitGame = $('#exit');
-    var exitGameButtonClicked;
-    var yes = $('#yes');
-    var no = $('#no');
-    var computerPlaying;
+
+// Function call - START button enabled / EXIT button disabled
+    enableStartGameOption();
+    disableExitGameOption();
     
+// Function - Initiate game
+    function playGame() {
+        scores = 0;
+        scoresId.html(scores);
+        awardType();
+        continuePlaying();
+    }
+    
+// Function - Continue game
+    function continuePlaying() {
+        awardType();
+        computerSequence = [];
+        statusDisplay.html('Computer playing...');
+        computerPlayRandomColorSequence(sequenceLength);
+        setTimeout(playerTurn, sequenceLength * 1100);
+        
+        function playerTurn () {    // Function - Prompt player to play
+            enableExitGameOption();
+            enableStartGameOption();
+            playerSequence = [];
+            statusDisplay.html('Your turn to play...');
+            clicked = false;
+            countdownForHardLevel();
+            enableColorsClickEvents();
+        }
+    }    
+var eleId = this.id
 
+// Function - Various click events
+    // enable click events
+    function enableColorsClickEvents() {
+        $(".color-btn").on('click', function (){ 
+            clicked = true;
+            playSound($("#" + this.id), $("#" + this.id + "Sound")[0]);
+            recordAndCheckPlayerSequence(this.id);
+        });
+    }
+    function enableStartGameOption() {
+        newGame.on("click", playGame);
+    }
+    function enableExitGameOption() {
+        exitGame.on("click", endGame);
+    }
+    // disable click events
+    function disableColorClickEvents() {
+        red.off('click');
+        yellow.off('click');
+        green.off('click');
+        blue.off('click');
+    }    
+    function disableStartGameOption() {
+        newGame.off("click");
+    }
+    function disableExitGameOption() {
+        exitGame.off("click");
+    }
+    // Exit game options YES/NO
+    $(document).on("click", "button#yes", yesEndGame); // CREDIT : https://www.tutorialrepublic.com/faq/how-to-bind-click-event-to-dynamically-added-elements-in-jquery.php
+    $(document).on("click", "button#no", noEndGame);
 
-// function for awarding player 
+// Function - Awarding player 
     function awardType() {
         if (scores >= 10) {
-           trophy.css({'color':'#cd7f32', 'display':'block'});
-           typeOfAward.html('Bronze');
-           award.css('display', 'block');
+            trophy.css({'color':'#cd7f32', 'display':'block'});
+            typeOfAward.html('Bronze');
         } else if (scores >= 25) {
-           trophy.css('color','silver');
-           typeOfAward.html('Silver');
-           award.css('display', 'block');
+            trophy.css({'color':'silver', 'display':'block'});
+            typeOfAward.html('Silver');
         } else if (scores >= 50) {
-           trophy.css('color','gold');
-           typeOfAward.html('Gold'); 
-           award.css('display', 'block');
+            trophy.css({'color':'gold', 'display':'block'});
+            typeOfAward.html('Gold'); 
         } else if (scores >= 75) {
-           trophy.css('color','#e5e4e2');
-           typeOfAward.html('Platinum');
-           award.css('display', 'block');
+            trophy.css({'color':'#e5e4e2', 'display':'block'});
+            typeOfAward.html('Platinum');
         } else if (scores >= 100) {
-           trophy.css('color','#b9f2ff;');
-           typeOfAward.html('Diamond'); 
-           award.css('display', 'block');
+            trophy.css({'color':'#b9f2ff;', 'display':'block'});
+            typeOfAward.html('Diamond'); 
         } else {
-            award.css('display', 'none');
+            trophy.css('display', 'none');
         }
     }
     
-// functions to check game options selected by player
-    
-    function difficultyLevelOption() {
+// Function - Check game mode selected
+    function gameMode() {
         if (easy.is(":checked")){
-            return difficultyLevel = 'easy';
+            return mode = 'easy';
         } else {
-            return difficultyLevel = 'hard';
+            return mode = 'hard';
         }
     }
-
-// Countdown for Hard level
+    
+// Function - Countdown for hard mode
     function countdownForHardLevel() {
-        if (difficultyLevel == 'hard') {
+        if (gameMode() == 'hard') {
             var counter = 10;
             var interval = setInterval(function() {
                 counter--;
@@ -85,8 +146,7 @@ $(document).ready(function(){
                     sequenceLength = 1;
                     scores = 0;
                     scoresId.html(scores);
-                } else if (clicked == true) {
-                    console.log('I detected clicked is true');
+                } else if (clicked == true || exitGameButtonClicked == true) {
                     clearInterval(interval);
                     countdown.html('-');
                 }
@@ -94,139 +154,70 @@ $(document).ready(function(){
         }
     }
 
-// Handling events
-    function enableColorsClickEvents() {
-        red.on('click', function (){ 
-            clicked = true;
-            console.log(clicked);
-            playSound(red, redSound);
-            recordAndCheckPlayerSequence('red');
-        });
-        green.on('click', function (){
-            clicked = true;
-            console.log(clicked);
-            playSound(green, greenSound);
-            recordAndCheckPlayerSequence('green');
-        });
-        yellow.on('click', function (){
-            clicked = true;
-            console.log(clicked);
-            playSound(yellow, yellowSound);
-            recordAndCheckPlayerSequence('yellow');
-        });
-        blue.on('click', function (){
-            clicked = true;
-            console.log(clicked);
-            playSound(blue, blueSound);
-            recordAndCheckPlayerSequence('blue');
-        });
-    }
- 
-    function disableColorClickEvents() {
-        red.off('click');
-        yellow.off('click');
-        green.off('click');
-        blue.off('click');
-    }
- 
-// function to disable exit game button
-    function disableExitGameOption() {
-        exitGame.off("click");
-    }
-// function to enable exit game button
-function enableExitGameOption() {
-        exitGame.on("click", endGame);
-    }
-    
-// function to start new game    
-    newGame.on("click", playGame);
-    
-// following source helped me understand why click was not working on dynamically created buttons
-// https://www.tutorialrepublic.com/faq/how-to-bind-click-event-to-dynamically-added-elements-in-jquery.php
-    $(document).on("click", "button#yes", yesEndGame);
-    $(document).on("click", "button#no", noEndGame);
-    
-
-// function to end game
+// Function - Exit game
     function endGame() {
         statusDisplay.html('<div class="gameOver">Are you sure?</div><br><button type="button" id="yes">yes</button><button type="button" id="no">no</button>');
+        exitGameButtonClicked = true;
     }
     function yesEndGame() {
-        console.log('I was clicked yes');
         statusDisplay.html('<div class="gameOver">Game Over </div><br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
         disableExitGameOption();
+        sequenceLength = 1;
+        exitGameButtonClicked = false;
     }
     function noEndGame() {
-        console.log('I was not clicked')
         continuePlaying();
+        exitGameButtonClicked = false;
     }
 
-// function to play sound and other effects
+// Function - Play sound and add box shadow effect
     function playSound(colorId, soundId) {
         soundId.play();
-        // shadow effect added
         colorId.addClass("shadow-effect");
-        // shadow effect removed
         setTimeout(noShadowEffect, 100);
         function noShadowEffect(){
             colorId.removeClass("shadow-effect");
         }
     }
 
-// Function to generate random color sequence for computer
+// Function - Generate random color sequence
     var colors = ["red", "green", "blue", "yellow"];
     function generateRandomColorSequence(sequenceLength) {
-       for (var i=0; i<sequenceLength; i++) {
+        for (var i=0; i<sequenceLength; i++) {
             var randomNumber = Math.floor(Math.random()*4);
-           computerSequence.push(colors[randomNumber]);
-       }
-       return computerSequence;
+            computerSequence.push(colors[randomNumber]);
+        }
+        return computerSequence;
     }
 
-// function to play given sequence
-    // works perfectly in Mozilla firefox; no sound in Chrome - throws error: Uncaught (in promise) DOMException
+// Function - Computer plays random sequence
     function computerPlayRandomColorSequence(sequenceLength) {
         disableColorClickEvents();
         disableExitGameOption();
+        disableStartGameOption();
         generateRandomColorSequence(sequenceLength);
         $.each(computerSequence, function(i) {
             computerPlaying = setTimeout(function(){
-                    var colorId = $("#" + computerSequence[i]);
-                    var soundId = $("#" + computerSequence[i] + "Sound")[0];
-                  playSound(colorId, soundId);   
-                }, i * 1000);
-            });
-        
+                var colorId = $("#" + computerSequence[i]);
+                var soundId = $("#" + computerSequence[i] + "Sound")[0];
+                playSound(colorId, soundId);  
+            }, i * 1000);
+        });
     }
 
-// function to record and check player sequence 
+// Function - Record and call function to check player sequence 
     function recordAndCheckPlayerSequence(color) {
         playerSequence.push(color);
         gameStatus();
     }
-
-    // function to check player sequence 
-    function check(){
-        var lastPositionInPlayerSequence = playerSequence.length - 1;
-        if (playerSequence[lastPositionInPlayerSequence] == computerSequence[lastPositionInPlayerSequence] && playerSequence.length <= computerSequence.length){
-            return 'Right';
-        } else {
-            disableColorClickEvents();
-            console.log('I was here' + playerSequence)
-            incorrectSound.play();
-            clearTimeout(continueGameTimer);
-            return 'Wrong';
-        }
-    }
     
-// function to check game status- game over or game continue
+// Function - Check game status- game over or game continue
     function gameStatus() {
         check();
         if (check() == 'Right') {
             if (playerSequence.length < computerSequence.length) {
                 statusDisplay.html('Well done!');
             } else if (playerSequence.length == computerSequence.length){
-                console.log('I was here also' + playerSequence)
                 statusDisplay.html('Next play! Get ready!');
                 continueGameTimer = setTimeout(function(){
                     scores++;
@@ -235,12 +226,11 @@ function enableExitGameOption() {
                     continuePlaying();
                     }, 1500);
             } else {
-                console.log(playerSequence.length + " " +computerSequence.length);
                  return check() == 'Wrong';
             }
         }    
         else {
-            if (difficultyLevel == 'hard') {
+            if (gameMode() == 'hard') {
                 statusDisplay.html('<div class="gameOver">Game Over </div><br>Oops! That\'s not right!<br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
                 sequenceLength = 1;
                 scores = 0;
@@ -252,36 +242,18 @@ function enableExitGameOption() {
             
         }
     }
-// function called to disable exit game button when game is not played
-disableExitGameOption();
 
-// function to initiate simple simon game
-    
-    function playGame() {
-        console.log(difficultyLevelOption());
-        continuePlaying();
-    }
-    
-    // function to continue the game
-
-    function continuePlaying() {
-        awardType();
-        computerSequence = [];
-        statusDisplay.html('Computer playing...');
-        computerPlayRandomColorSequence(sequenceLength);
-        console.log(computerSequence); // testing in console
-        
-        setTimeout(playerTurn, sequenceLength * 1100);
-        
-        function playerTurn () {
-            playerSequence = [];
-            statusDisplay.html('Your turn to play...');
-            enableColorsClickEvents();
-            enableExitGameOption();
-            clicked = false;
-            countdownForHardLevel();
+// Function - Check player sequence 
+    function check(){
+        var lastPositionInPlayerSequence = playerSequence.length - 1;
+        if (playerSequence[lastPositionInPlayerSequence] == computerSequence[lastPositionInPlayerSequence] && playerSequence.length <= computerSequence.length){
+            return 'Right';
+        } else {
+            disableColorClickEvents();
+            incorrectSound.play();
+            clearTimeout(continueGameTimer);
+            return 'Wrong';
         }
     }
-            
 });
 
