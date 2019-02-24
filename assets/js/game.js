@@ -7,22 +7,13 @@ $(document).ready(function(){
     var scores = 0;
     var trophy = $('.fa-trophy');
     var typeOfAward = $('#award-type');
-    // coloured buttons
-    var red = $('#red');
-    var green = $('#green');
-    var blue = $('#blue');
-    var yellow = $('#yellow');
     // audio files 
-    var redSound = $('#redSound')[0];
-    var greenSound = $('#greenSound')[0];
-    var blueSound = $('#blueSound')[0];
-    var yellowSound = $('#yellowSound')[0];
     var incorrectSound = $('#incorrectSound')[0];
     // game status
     var statusDisplay = $('#status');
     var computerPlaying;
     // game options
-    var newGame = $("#newGame");
+    var start = $("#start");
     var exitGame = $('#exit');
     var exitGameButtonClicked;
     var easy = $("#easy");
@@ -36,11 +27,13 @@ $(document).ready(function(){
     var computerSequence;
     var sequenceLength = 1;
 
-// Function call - START button enabled / EXIT button disabled
-    enableStartGameOption();
-    disableExitGameOption();
+    enableStartGameOption(); // Enable START button
+    disableExitGameOption(); // Disable EXIT button
     
-// Function - Initiate game
+    // Game begins when player clicks START button
+    function enableStartGameOption() {
+        start.on("click", playGame);
+    }
     function playGame() {
         scores = 0;
         scoresId.html(scores);
@@ -66,8 +59,6 @@ $(document).ready(function(){
             enableColorsClickEvents();
         }
     }    
-var eleId = this.id
-
 // Function - Various click events
     // enable click events
     function enableColorsClickEvents() {
@@ -77,21 +68,16 @@ var eleId = this.id
             recordAndCheckPlayerSequence(this.id);
         });
     }
-    function enableStartGameOption() {
-        newGame.on("click", playGame);
-    }
+    
     function enableExitGameOption() {
         exitGame.on("click", endGame);
     }
     // disable click events
     function disableColorClickEvents() {
-        red.off('click');
-        yellow.off('click');
-        green.off('click');
-        blue.off('click');
+       $(".color-btn").off('click');
     }    
     function disableStartGameOption() {
-        newGame.off("click");
+        start.off("click");
     }
     function disableExitGameOption() {
         exitGame.off("click");
@@ -100,28 +86,7 @@ var eleId = this.id
     $(document).on("click", "button#yes", yesEndGame); // CREDIT : https://www.tutorialrepublic.com/faq/how-to-bind-click-event-to-dynamically-added-elements-in-jquery.php
     $(document).on("click", "button#no", noEndGame);
 
-// Function - Awarding player 
-    function awardType() {
-        if (scores >= 10) {
-            trophy.css({'color':'#cd7f32', 'display':'block'});
-            typeOfAward.html('Bronze');
-        } else if (scores >= 25) {
-            trophy.css({'color':'silver', 'display':'block'});
-            typeOfAward.html('Silver');
-        } else if (scores >= 50) {
-            trophy.css({'color':'gold', 'display':'block'});
-            typeOfAward.html('Gold'); 
-        } else if (scores >= 75) {
-            trophy.css({'color':'#e5e4e2', 'display':'block'});
-            typeOfAward.html('Platinum');
-        } else if (scores >= 100) {
-            trophy.css({'color':'#b9f2ff;', 'display':'block'});
-            typeOfAward.html('Diamond'); 
-        } else {
-            trophy.css('display', 'none');
-        }
-    }
-    
+
 // Function - Check game mode selected
     function gameMode() {
         if (easy.is(":checked")){
@@ -196,6 +161,7 @@ var eleId = this.id
         disableExitGameOption();
         disableStartGameOption();
         generateRandomColorSequence(sequenceLength);
+        console.log(computerSequence);
         $.each(computerSequence, function(i) {
             computerPlaying = setTimeout(function(){
                 var colorId = $("#" + computerSequence[i]);
@@ -255,5 +221,35 @@ var eleId = this.id
             return 'Wrong';
         }
     }
+    
+    // Function - Awarding player 
+    function awardType() {
+        switch (true) {
+            case (scores < 10):
+                trophy.addClass('transparent');
+                break;
+            case (scores < 25): 
+                trophy.addClass('bronze');
+                typeOfAward.html('Bronze');
+                break;
+            case (scores < 50):
+                trophy.addClass('silver');
+                typeOfAward.html('Silver');
+                break;
+            case (scores < 75):
+                trophy.addClass('gold');
+                typeOfAward.html('Gold'); 
+                break;
+            case (scores < 100):
+                trophy.addClass('platinum');
+                typeOfAward.html('Platinum');
+                break;
+            case (scores >= 100):
+                trophy.addClass('diamond');
+                typeOfAward.html('Diamond'); 
+                break;
+        }
+    }
+    
 });
 

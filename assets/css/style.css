@@ -48,6 +48,26 @@ body, html {
     font-family: 'Orbitron', sans-serif;
     color: red;
 }
+.transparent {
+    color: transparent;
+    display: block;
+}
+.bronze {
+    color: #cd7f32;
+}
+.silver {
+    color: silver;
+}
+.gold {
+    color: gold;
+}
+.platinum {
+    color: #e5e4e2;
+}
+.diamond {
+    color: #b9f2ff;
+}
+
 /*-------------------------------------------------------------- Game Console */
 #console {
     background: -moz-linear-gradient(to right,#000000, #443131, #000000);
