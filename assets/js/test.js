@@ -25,7 +25,6 @@ $(document).ready(function(){
     // sequences
     var playerSequence;
     var computerSequence;
-    /*var sequenceLength = 1;*/
 
  
     // Game begins when player clicks START button
@@ -48,21 +47,18 @@ $(document).ready(function(){
     
         function generateRandomColorSequence(/*sequenceLength*/) {
             var colors = ["red", "green", "blue", "yellow"];
-            /*for (var i=0; i<sequenceLength; i++) {*/
                 var randomNumber = Math.floor(Math.random()*4);
                 computerSequence.push(colors[randomNumber]);
-            /*}*/
             return computerSequence;
         }
         
         // Function - Simon plays sequence
         
-        function computerPlayRandomColorSequence(/*sequenceLength*/) {
+        function computerPlayRandomColorSequence() {
             disableColorClickEvents();
             disableExitGameOption();
             disableStartGameOption();
-            generateRandomColorSequence(/*sequenceLength*/);
-            /*console.log(sequenceLength);*/
+            generateRandomColorSequence();
             console.log(computerSequence);
             $.each(computerSequence, function(i) {
                 computerPlaying = setTimeout(function(){
@@ -73,13 +69,13 @@ $(document).ready(function(){
             });
         }
         
-        computerPlayRandomColorSequence(/*sequenceLength*/); // change
+        computerPlayRandomColorSequence(); 
         
         // Function - User plays and game status updated with every user input
         
-        setTimeout(playerTurn, /*sequenceLength*/ computerSequence * 1100); // change
+        setTimeout(playerTurn, computerSequence * 1100); 
         function playerTurn () {    
-            enableExitGameOption(); // change
+            enableExitGameOption(); 
             playerSequence = [];
             statusDisplay.html('Your turn to play...');
             clicked = false;
@@ -87,32 +83,12 @@ $(document).ready(function(){
             $(".color-btn").on('click', function (){ 
                 clicked = true;
                 playSound($("#" + this.id), $("#" + this.id + "Sound")[0]);
-                /*recordAndCheckPlayerSequence(this.id);*/
                 playerSequence.push(this.id);
                 gameStatus();
             });
-            /*enableColorsClickEvents();*/ 
         }
         
-       /* // Function - User input enabled and checked
-         
-        function enableColorsClickEvents() {
-            $(".color-btn").on('click', function (){ 
-                clicked = true;
-                playSound($("#" + this.id), $("#" + this.id + "Sound")[0]);
-                recordAndCheckPlayerSequence(this.id);
-                playerSequence.push(this.id);
-                gameStatus();
-            });
-        }*/
-        
-        
-       /* // Function - Record and call function to check player sequence 
-        
-        function recordAndCheckPlayerSequence(color) {
-            playerSequence.push(color);
-            gameStatus();
-        }*/
+
     
 // Function - Check game status- game over or game continue
     function gameStatus() {
@@ -233,7 +209,6 @@ $(document).ready(function(){
                 disableColorClickEvents();
                 clearInterval(interval);
                 statusDisplay.html('<div class="gameOver">Time Up! </div>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
-                /*sequenceLength = 1;*/
                 scores = 0;
                 scoresId.html(scores);
             } else if (clicked == true || exitGameButtonClicked == true) {
@@ -251,7 +226,6 @@ $(document).ready(function(){
     function yesEndGame() {
         statusDisplay.html('<div class="gameOver">Game Over </div><br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
         disableExitGameOption();
-        /*sequenceLength = 1;*/
         exitGameButtonClicked = false;
     }
     function noEndGame() {
