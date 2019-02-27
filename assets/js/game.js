@@ -161,8 +161,42 @@ $(document).ready(function(){
 
 //-------------------------------------------------------------------- Functions
 
-// timer function sets 10s countdown timer for hard mode. 
-// Player must start the turn within 10s to avoid losing.
+    // playSound() function is called when Simon or player plays
+
+    function playSound(colorId, soundId) {
+        soundId.play();
+        colorId.addClass("shadow-effect");
+        setTimeout(noShadowEffect, 100);
+        function noShadowEffect(){
+            colorId.removeClass("shadow-effect");
+        }
+    }
+    
+    // exitGame() function is called when EXIT button is clicked;
+    // yesExit() function is called and game overs when YES button is clicked;
+    // noExit() function is called and game continues when NO button is clicked;
+
+    $(document).on("click", "button#yes", yesExit); // CREDIT : https://www.tutorialrepublic.com/faq/how-to-bind-click-event-to-dynamically-added-elements-in-jquery.php
+    $(document).on("click", "button#no", noExit);
+    function exitGame() {
+        status.html('<div class="gameOver">Are you sure?</div><br><button type="button" id="yes">yes</button><button type="button" id="no">no</button>');
+        exitClicked = true;
+    }
+    function yesExit() {
+        status.html('<div class="gameOver">Game Over </div><br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
+        newGame = true;
+        exit.off("click");
+        exitClicked = false; // reset exitClicked
+    }
+    function noExit() {
+        newGame = false;
+        notEndGame = true;
+        exitClicked = false; // reset exitClicked
+        play();
+    }
+
+    // timer function sets 10s countdown timer for hard mode. 
+    // Player must start the turn within 10s to avoid losing.
 
     function timer() {
         var counter = 10;
@@ -181,7 +215,8 @@ $(document).ready(function(){
     }
 
     
-// Player is awarded bronze, silver, gold, platinum and diamond trophy based on score count.
+    // Player is awarded bronze, silver, gold, platinum and diamond trophy based on score count.
+    
     function awardType() {
         switch (true) {
             case (scores < 10):
@@ -210,38 +245,5 @@ $(document).ready(function(){
         }
     }
 
-// exitGame() function is called when EXIT button is clicked;
-// yesExit() function is called and game overs when YES button is clicked;
-// noExit() function is called and game continues when NO button is clicked;
-
-    $(document).on("click", "button#yes", yesExit); // CREDIT : https://www.tutorialrepublic.com/faq/how-to-bind-click-event-to-dynamically-added-elements-in-jquery.php
-    $(document).on("click", "button#no", noExit);
-    function exitGame() {
-        status.html('<div class="gameOver">Are you sure?</div><br><button type="button" id="yes">yes</button><button type="button" id="no">no</button>');
-        exitClicked = true;
-    }
-    function yesExit() {
-        status.html('<div class="gameOver">Game Over </div><br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
-        newGame = true;
-        exit.off("click");
-        exitClicked = false; // reset exitClicked
-    }
-    function noExit() {
-        newGame = false;
-        notEndGame = true;
-        exitClicked = false; // reset exitClicked
-        play();
-    }
-
-// playSound() function is called when Simon or player plays
-
-    function playSound(colorId, soundId) {
-        soundId.play();
-        colorId.addClass("shadow-effect");
-        setTimeout(noShadowEffect, 100);
-        function noShadowEffect(){
-            colorId.removeClass("shadow-effect");
-        }
-    }
 });
 

@@ -4,104 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.3.0/jasmine.css" type="text/css" />-->
+    <!-- Font awesome CSS files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.2.1/font-awesome-animation.css" type="text/css" />
+    <!-- Bootstrap CSS files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Game CSS files -->
     <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
     <title>Simon Game</title>
 </head>
 <body>
-    <!--- Header -->
-    <header class="header">
-        <h1 class="heading text-center">Simon Game</h1>
-    </header>
-    <!--- Game Scores -->
-    <section class="container score-block">
-        <div class="row text-center">
-            <!--- Scores -->
-            <div class="col-4 col-sm-4 display-row"> Scores <div class="display-entry" id="scores">-</div></div>
-            <!--- Awards -->
-            <div class="col-4 col-sm-4 display-row"><div id="award-type">Award </div><i class="display-entry fa fa-trophy faa-float animated faa-slow" aria-hidden="true"></i></div>
-            <!--- Timer -->
-            <div class="col-4 col-sm-4 display-row"> Timer <div class="display-entry" id="countdown">-</div></div>
-        </div>
-    </section>
-    <!--- Game console -->
-    <section class="console-block">
-        <div id="console">
-            <div id="green" class="color-btn"></div>
-            <div id="red" class="color-btn"></div>
-            <div id="yellow" class="color-btn"></div>
-            <div id="blue" class="color-btn"></div>
-        </div>
-    </section>
-    <!--- Game status/options -->
-    <section class="status-block">
-        <div id="status">Press 'START' to begin the game.</div>
-        <div class="buttons">
-            <button type="button" class="btn btn-outline-dark" id="start">Start</button>
-            <button type="button" class="btn btn-outline-dark" id="exit">Exit</button>
-        </div>
-        <div class="buttons">
-            <div class="btn-group dropup ">
-                <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Mode
-                </button>
-                <div class="dropdown-menu">
-                    <label class="dropdown-item btn btn-secondary active">
-                        <input type="radio" name="options" id="easy" autocomplete="off" checked> Easy
-                    </label>
-                    <label class="dropdown-item btn btn-secondary">
-                        <input type="radio" name="options" id="hard" autocomplete="off"> Hard
-                    </label>
+    <main class="main">
+        
+        <!--- Header -->
+        <header id="header">
+            <h1 class="heading text-center">Simon Game</h1>
+            <div class="container score-block">
+                <div class="row text-center">
+                    <!--- Scores -->
+                    <div class="col-4 col-sm-4 top-display"> Scores <div class="top-display-entry" id="scores">-</div></div>
+                    <!--- Awards -->
+                    <div class="col-4 col-sm-4 top-display"><div id="award-type">Award </div><i class="top-display-entry fa fa-trophy faa-float animated faa-slow" aria-hidden="true"></i></div>
+                    <!--- Timer -->
+                    <div class="col-4 col-sm-4 top-display"> Timer <div class="top-display-entry" id="countdown">-</div></div>
                 </div>
             </div>
-            <button type="button" class="btn btn-outline-dark" id="help" data-toggle="modal" data-target="#exampleModalScrollable">Help</button>
-        </div>
-    </section>
-<!-- game instructions was mainly taken from following source and then personalised for the game designed -->
-<!-- CREDIT: file:///C:/Users/MARIA/Documents/New%20documents/Web%20Development%20Course/PROJECTS/Project%202%20-%20IK/Simon.PDF -->
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalScrollableTitle"><strong>How To Play</strong></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-              <em>Single player game</em><br><br>
-              <h6>OBJECT:</h6>  
-              <p>Correctly repeat a longer and longer sequence of signals.</p>
-              <p>Follow the steps below:</p>
-              <ol>
-                  <li>Select game mode by pressing MODE button. You can choose EASY or HARD. In EASY mode, you 
-                  can continue the game even if you make mistake. In HARD mode, game is over if you make a mistake.
-                  Moreover, you have 10 seconds to start your sequence or your time is up.</li>
-                  <li>Once game mode is selected, press the START button. Simon will give the first signal. Repeat the signal by pressing
-                  the same colour lens.</li>
-                  <li>Simon will then give two signals and so on. Keep repeating the signals by pressing the same 
-                  colour lenses, in order.</li>
-                  <li>Continue playing as long as you can repeat each sequence of signals correctly.</li>
-                  <li>If you fail to repeat a sequence, Simon responds with 'RAZZ' sound. In hard mode, this means game is over
-                  and your scores will be displayed. In easy mode, you are still in the game and Simon will play another sequence for you
-                  to try again.</li>
-              </ol>
-              <h6>AWARDS:</h6>
-              <ul>
-                  <li>If you score 10+, you get Bronze cup.</li>
-                  <li>If you score 25+, you get Silver cup.</li>
-                  <li>If you score 50+, you get Gold cup.</li>
-                  <li>If you score 75+, you get Platinum cup.</li>
-                  <li>If you score 100+, you get Diamond cup.</li>
-              </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+        </header>
+        
+        <!--- Game console -->
+        <section id="game-console-wrapper">
+            <div class="container">
+                <div class="row d-flex justify-content-around align-items-center" id="game-console">
+                    <div class="color-btn" id="green"></div>
+                    <div class="color-btn" id="blue"></div>
+                    <div class="color-btn" id="yellow"></div>
+                    <div class="color-btn" id="red"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!--- Game options -->
+        <section class="game-options-wrapper">
+            <div class="text-left" id="status">
+                Press 'HELP' to read game instructions.<br>
+                Press 'MODE' to choose your game mode. <br>
+                Press 'START' to begin the game.
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-6 text-right">
+                        <button type="button" class="btn btn-outline-dark btn-custom" id="start">Start</button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-outline-dark btn-custom" id="exit">Exit</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 text-right">
+                        <div class="btn-group dropup">
+                            <button type="button" class="btn btn-outline-dark dropdown-toggle btn-custom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Mode
+                            </button>
+                            <div class="dropdown-menu">
+                                <label class="dropdown-item btn btn-secondary active">
+                                    <input type="radio" name="options" id="easy" checked> Easy
+                                </label>
+                                <label class="dropdown-item btn btn-secondary">
+                                    <input type="radio" name="options" id="hard"> Hard
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-outline-dark btn-custom" id="help" data-toggle="modal" data-target="#exampleModalScrollable">Help</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle"><strong>How To Play</strong></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <em>Single player game</em><br><br>
+                        <h6>OBJECT:</h6>  
+                        <p>Correctly repeat a longer and longer sequence of signals.</p>
+                        <p>Follow the steps below:</p>
+                        <ol>
+                            <li>Select game mode by pressing MODE button. You can choose EASY or HARD. In EASY mode, you 
+                              can continue the game even if you make mistake. In HARD mode, game is over if you make a mistake.
+                              Moreover, you have 10 seconds to start your sequence or your time is up.</li>
+                            <li>Once game mode is selected, press the START button. Simon will give the first signal. Repeat the signal by pressing
+                              the same colour lens.</li>
+                            <li>Simon will then give two signals and so on. Keep repeating the signals by pressing the same 
+                              colour lenses, in order.</li>
+                            <li>Continue playing as long as you can repeat each sequence of signals correctly.</li>
+                            <li>If you fail to repeat a sequence, Simon responds with 'RAZZ' sound. In hard mode, this means game is over
+                              and your scores will be displayed. In easy mode, you are still in the game and Simon will play another sequence for you
+                              to try again.</li>
+                        </ol>
+                        <h6>AWARDS:</h6>
+                        <ul>
+                            <li>If you score 10+, you get Bronze cup.</li>
+                            <li>If you score 25+, you get Silver cup.</li>
+                            <li>If you score 50+, you get Gold cup.</li>
+                            <li>If you score 75+, you get Platinum cup.</li>
+                            <li>If you score 100, you get Diamond cup. You are the 'Winner'.</li>
+                        </ul>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </section>    
+    </main>
     
     <!--- Game audio files preloaded -->
     <audio preload="auto" id="greenSound"><source src="/assets/audio/piano_a3.mp3"></source></audio>
@@ -109,15 +129,14 @@
     <audio preload="auto" id="yellowSound"><source src="/assets/audio/piano_d4.mp3"></source></audio>
     <audio preload="auto" id="blueSound"><source src="/assets/audio/piano_d5.mp3"></source></audio>
     <audio preload="auto" id="incorrectSound"><source src="/assets/audio/incorrect_answer.mp3"></source></audio>
-    <!--- Script files -->
-    <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.3.0/jasmine.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.3.0/jasmine-html.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.3.0/boot.js"></script>-->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>-->
+    
+    <!-- Load Bootstrap framework -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/js/game.js"></script>
-    <script type="text/javascript" src="/spec/gameSpec.js"></script>
+    
+    <!-- Load sripts -->
+    <script src="assets/js/game.js"></script>
 </body>
 </html>
+
