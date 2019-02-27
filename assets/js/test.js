@@ -7,114 +7,162 @@ $(document).ready(function(){
     var trophy = $('.fa-trophy');
     var typeOfAward = $('#award-type');
     var incorrectSound = $('#incorrectSound')[0];
-    var statusDisplay = $('#status');
+    var status = $('#status');
     var colorsButton = $(".color-btn");
     var start = $("#start");
-    var exitGame = $('#exit');
+    var exit = $('#exit');
     var hard = $("#hard");
     var yes = $('#yes');
     var no = $('#no');
-    var scores, playerSequence, computerSequence, retry, newGame, clicked;
-    var continueGameTimer, exitGameButtonClicked, notEndGame;
+    var scores, playerSequence, simonSequence, retry, newGame, clicked;
+    var exitGameButtonClicked, notEndGame;
  
 // ------------------------------------------------------------------  Functions
     
-// New Game begins when player clicks START button
+    // enableClickEvents() enables all click events associated with buttons e.g. START, EXIT etc
     
     enableClickEvents();
-    function playGame() {
+    
+    function enableClickEvents () {
+            colorsButton.on('click');
+            exit.on("click", exitGame);
+            start.on("click", play);
+        }
+        
+    // play() function is called:
+    // when user clicks START button to play new game; 
+    // when game is continued as a result of mistake (EASY mode only);
+    // when user click EXIT button and then click 'NO' when message appears 'Are you sure?'
+    
+    function play() {
+    
+    // Here we filter through the reasons for calling playGame function. This is needed so that: 
+    // We reset the game in case of new game;
+    // We keep the scores when the game is continued by user in case of retry.
+    // We increment scores when the player repeats correct sequence.
+    
         if (newGame == false && retry != true && notEndGame != true) {
             scores++;
             scoresId.html(scores);
-            console.log('I was here 1')
         } else if (newGame == false && (retry == true|| notEndGame == true))  {
-            console.log('I was here 2')
             scores;
         } else {
             scores = 0;
             scoresId.html(scores);
-            computerSequence = [];
-            console.log('I was here 3')
+            simonSequence = [];
         }
         
+    // Here we call awardType() function to check award type (if any) won by player.
+    
         awardType();
-        statusDisplay.html('Simon playing...');
         
-        // Function - Random color generated and added to simon sequence
-        function generateRandomColorSequence() {
+    // We keep the player informed throughout the play so they know what to expect.
+    // Here we display to the user that Simon is playing its turn. 
+    
+        status.html('Simon playing...');
+    
+    // Here we add random color to simonSequence array. 
+    
+        function addRandomColor() {
             var colors = ["red", "green", "blue", "yellow"];
             var randomNumber = Math.floor(Math.random()*4);
-            computerSequence.push(colors[randomNumber]);
-            return computerSequence;
+            simonSequence.push(colors[randomNumber]);
+            return simonSequence;
         }
         
-        // Function - Simon plays sequence
-        function computerPlayRandomColorSequence() {
-            disableClickEvents()
+    // Here we call simonPlay() function which:
+    // Disables all click events to avoid situations like 'user clicking on coloured buttons while the simon is playing';
+    // Check whether the Simon should play same color sequence (continued game) or updated color sequence (new game);
+    // Simon plays the sequence of colours
+    
+        simonPlay(); 
+    
+        function simonPlay() {
+            
+            disableClickEvents();
+            function disableClickEvents() {
+                colorsButton.off('click');
+                exit.off("click");
+                start.off("click");
+            } 
+            
             if (retry == true || notEndGame == true) {
-                computerSequence;
-                retry = false;
+                simonSequence;
+                retry = false; // resets retry 
             } else {
-                generateRandomColorSequence();
+                addRandomColor();
             }
-            console.log(computerSequence);
-            $.each(computerSequence, function(i) {
+            console.log(simonSequence);
+            $.each(simonSequence, function(i) {
                 setTimeout(function(){
-                    var colorId = $("#" + computerSequence[i]);
-                    var soundId = $("#" + computerSequence[i] + "Sound")[0];
+                    var colorId = $("#" + simonSequence[i]);
+                    var soundId = $("#" + simonSequence[i] + "Sound")[0];
                     playSound(colorId, soundId);  
                 }, i * 1000);
             });
         }
-        
-        computerPlayRandomColorSequence(); 
-        
-        // Function - User plays and game status updated with every user input
-        setTimeout(playerTurn, computerSequence.length * 1100); 
-        function playerTurn () {
-            enableClickEvents()
+    
+    // Here player is prompt to play
+    
+        setTimeout(playerTurn, simonSequence.length * 1100); 
+   
+    // Here we enable all click events so that the player can either play or exit game.
+    // In case of hard mode selected, we start the 10s countdown timer.
+    // Timer will stop when the user starts the play;
+    // Every time user clicks a colour, gameStatus() function is called to check it matches with simon's sequence.  
+       
+        function playerTurn() {
+            enableClickEvents();
             playerSequence = [];
-            statusDisplay.html('Your turn to play...');
+            status.html('Your turn to play...');
             
             if (hard.is(":checked")) {
                 timer();
+                clicked = false; // Timer stops once the value is true (for hard mode only).
             }
-            clicked = false;
             colorsButton.on('click', function (){ 
-                clicked = true;
+                clicked = true; // Stops timer.
                 playSound($("#" + this.id), $("#" + this.id + "Sound")[0]);
                 playerSequence.push(this.id);
-                gameStatus();
+                gameStatus(); // Checks user input and update game accordingly
             });
         }
     
-    // Function - Check game status- game over or game continue
-    function gameStatus() {
-        var lastPosition = playerSequence.length - 1;
-        console.log(playerSequence);
-        if (playerSequence[lastPosition] == computerSequence[lastPosition] && playerSequence.length < computerSequence.length) {
-            statusDisplay.html('Well done!');
-        } else if (playerSequence[lastPosition] == computerSequence[lastPosition] && playerSequence.length == computerSequence.length) {
-            statusDisplay.html('Next play! Get ready!');
-            continueGameTimer = setTimeout(function(){
-                newGame = false;
-                playGame();
+    // Here we check the game status and display it to the user:
+    // If player repeats correct sequence then the game continues by calling play() function;
+    // If player makes a mistake, simon repeats the sequence and player gets another try (easy mode);
+    // If player makes a mistake, game is over (hard mode).
+    
+        function gameStatus() {
+            var lastPosition = playerSequence.length - 1; // position of the last item in player sequence
+            console.log(playerSequence);
+            if (playerSequence[lastPosition] == simonSequence[lastPosition] && playerSequence.length < simonSequence.length) {
+                status.html('Well done!');
+            } else if (playerSequence[lastPosition] == simonSequence[lastPosition] && playerSequence.length == simonSequence.length) {
+                status.html('Next play! Get ready!');
+                setTimeout(function(){
+                    newGame = false; // To avoid score and simon sequence reset
+                    play();
                 }, 1500);
-        } else {
-            incorrectSound.play();
-            clearTimeout(continueGameTimer);
-            if (hard.is(":checked")) {
-                statusDisplay.html('<div class="gameOver">Game Over </div><br>Oops! That\'s not right!<br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
             } else {
-                statusDisplay.html("<div class='gameOver'>Oops! Not quite right!<br><br> Let's have another try! </div>");
-                retry = true;
-                newGame = false;
-                setTimeout(playGame, 4000);
+                incorrectSound.play(); // 'Razz' sound plays when player makes mistake
+                if (hard.is(":checked")) {
+                    status.html('<div class="gameOver">Game Over </div><br>Oops! That\'s not right!<br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
+                } else {
+                    status.html("<div class='gameOver'>Oops! Not quite right!<br><br> Let's have another try! </div>");
+                    retry = true;
+                    newGame = false;
+                    setTimeout(play, 4000);
+                }
             }
         }
-    }
+    }    
 
-    // Function - Countdown Timer 
+//-------------------------------------------------------------------- Functions
+
+// timer function sets 10s countdown timer for hard mode. 
+// Player must start the turn within 10s to avoid losing.
+
     function timer() {
         var counter = 10;
         var interval = setInterval(function() {
@@ -123,7 +171,7 @@ $(document).ready(function(){
             if (counter == 0 && clicked == false) {
                 incorrectSound.play();
                 clearInterval(interval);
-                statusDisplay.html('<div class="gameOver">Time Up! </div>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
+                status.html('<div class="gameOver">Time Up! </div>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
             } else if (clicked == true || exitGameButtonClicked == true) {
                 clearInterval(interval);
                 countdown.html('-');
@@ -132,7 +180,7 @@ $(document).ready(function(){
     }
 
     
-    // Function - Awarding player 
+// Player is awarded bronze, silver, gold, platinum and diamond trophy based on score count.
     function awardType() {
         switch (true) {
             case (scores < 10):
@@ -160,40 +208,31 @@ $(document).ready(function(){
                 break;
         }
     }
-    }    
-    
-// Function to disable and enable click events    
-    function disableClickEvents() {
-            colorsButton.off('click');
-            exitGame.off("click");
-            start.off("click");
-        } 
-    function enableClickEvents () {
-            colorsButton.on('click');
-            exitGame.on("click", endGame);
-            start.on("click", playGame);
-        }
 
-// Function to exit game
-    $(document).on("click", "button#yes", yesEndGame); // CREDIT : https://www.tutorialrepublic.com/faq/how-to-bind-click-event-to-dynamically-added-elements-in-jquery.php
-    $(document).on("click", "button#no", noEndGame);
-    function endGame() {
-        statusDisplay.html('<div class="gameOver">Are you sure?</div><br><button type="button" id="yes">yes</button><button type="button" id="no">no</button>');
+// exitGame() function is called when EXIT button is clicked;
+// yesExit() function is called and game overs when YES button is clicked;
+// noExit() function is called and game continues when NO button is clicked;
+
+    $(document).on("click", "button#yes", yesExit); // CREDIT : https://www.tutorialrepublic.com/faq/how-to-bind-click-event-to-dynamically-added-elements-in-jquery.php
+    $(document).on("click", "button#no", noExit);
+    function exitGame() {
+        status.html('<div class="gameOver">Are you sure?</div><br><button type="button" id="yes">yes</button><button type="button" id="no">no</button>');
         exitGameButtonClicked = true;
     }
-    function yesEndGame() {
-        statusDisplay.html('<div class="gameOver">Game Over </div><br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
+    function yesExit() {
+        status.html('<div class="gameOver">Game Over </div><br>You scored <span class="displayRed">'+ scores +'</span><br>Press "NEW GAME" to start the game.');
         newGame = true;
         exitGameButtonClicked = false;
     }
-    function noEndGame() {
+    function noExit() {
         newGame = false;
         notEndGame = true;
-        playGame();
+        play();
         exitGameButtonClicked = false;
     }
 
-// Function - Play sound and add box shadow effect
+// playSound() function is called when Simon or player plays
+
     function playSound(colorId, soundId) {
         soundId.play();
         colorId.addClass("shadow-effect");
