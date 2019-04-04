@@ -13,23 +13,21 @@
     <title>Simon Game</title>
 </head>
 <body>
-    <main class="main">
-        
-        <!--- Header -->
-        <header id="header">
-            <h1 class="heading text-center">Simon Game</h1>
-            <div class="container score-block">
-                <div class="row text-center">
-                    <!--- Scores -->
-                    <div class="col-4 col-sm-4 top-display"> Scores <div class="top-display-entry" id="scores">-</div></div>
-                    <!--- Awards -->
-                    <div class="col-4 col-sm-4 top-display"><div id="award-type">Award </div><i class="top-display-entry fa fa-trophy faa-float animated faa-slow" aria-hidden="true"></i></div>
-                    <!--- Timer -->
-                    <div class="col-4 col-sm-4 top-display"> Timer <div class="top-display-entry" id="countdown">-</div></div>
-                </div>
+    <!--- Header -->
+    <header id="header">
+        <h1 class="heading text-center">Simon Game</h1>
+        <div class="container score-block">
+            <div class="row text-center">
+                <!--- Scores -->
+                <div class="col-4 col-sm-4 top-display"> Scores <div class="top-display-entry" id="scores">-</div></div>
+                <!--- Awards -->
+                <div class="col-4 col-sm-4 top-display"><div id="award-type">Award </div><i class="top-display-entry fa fa-trophy faa-float animated faa-slow" aria-hidden="true"></i></div>
+                <!--- Timer -->
+                <div class="col-4 col-sm-4 top-display"> Timer <div class="top-display-entry" id="countdown">-</div></div>
             </div>
-        </header>
-        
+        </div>
+    </header>
+    <main class="main">    
         <!--- Game console -->
         <section id="game-console-wrapper">
             <div class="container">
@@ -44,7 +42,7 @@
         
         <!--- Game options -->
         <section class="game-options-wrapper">
-            <div class="text-left" id="status">
+            <div class="text-center" id="status">
                 Press 'HELP' to read game instructions.<br>
                 Press 'MODE' to choose your game mode. <br>
                 Press 'START' to begin the game.
@@ -124,11 +122,11 @@
     </main>
     
     <!--- Game audio files preloaded -->
-    <audio preload="auto" id="greenSound"><source src="/assets/audio/piano_a3.mp3"></source></audio>
-    <audio preload="auto" id="redSound"><source src="/assets/audio/piano_d3.mp3"></source></audio>
-    <audio preload="auto" id="yellowSound"><source src="/assets/audio/piano_d4.mp3"></source></audio>
-    <audio preload="auto" id="blueSound"><source src="/assets/audio/piano_d5.mp3"></source></audio>
-    <audio preload="auto" id="incorrectSound"><source src="/assets/audio/incorrect_answer.mp3"></source></audio>
+    <audio preload="auto" id="greenSound"><source src="/assets/audio/piano_a3.mp3"></audio>
+    <audio preload="auto" id="redSound"><source src="/assets/audio/piano_d3.mp3"></audio>
+    <audio preload="auto" id="yellowSound"><source src="/assets/audio/piano_d4.mp3"></audio>
+    <audio preload="auto" id="blueSound"><source src="/assets/audio/piano_d5.mp3"></audio>
+    <audio preload="auto" id="incorrectSound"><source src="/assets/audio/incorrect_answer.mp3"></audio>
     
     <!-- Load Bootstrap framework -->
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>

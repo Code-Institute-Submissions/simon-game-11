@@ -7,7 +7,7 @@ body, html {
     color: #adb5bd;
 }
 .main {
-    height: 100vh;
+    height: 75vh;
 }
 /*-------------------------------------------------------------------- Header */
 #header {
@@ -39,6 +39,7 @@ body, html {
 }
 .displayRed {
     font-family: 'Orbitron', sans-serif;
+    padding-left: 5px;
     color: red;
 }
 .transparent {
@@ -112,7 +113,7 @@ body, html {
 }
 /*-------------------------------------------------------------- Game Options */
 .game-options-wrapper {
-    height: 35vh;
+    height: 30vh;
 }
 .btn-custom {
     width: 85px;
@@ -121,10 +122,10 @@ body, html {
     color: #adb5bd;
 }
 #status {
-    width: 300px;
-    height: 150px;
-    font-size: 12px;
-    padding-left: 50px;
+    width: 310px;
+    height: 120px;
+    font-size: 13px;
+    line-height: 25px;
     margin: 5px auto;
 }
 .modal-content {
