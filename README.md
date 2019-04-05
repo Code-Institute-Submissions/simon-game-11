@@ -65,6 +65,20 @@ The website is designed using following technologies:
 
 ## Testing
 All tests were carried out manually.
+
+##### Timer (Hard mode only)
+* Play the game in hard mode and let Simon play its turn. Let the countdown begin 
+  and become 0 and verify that the: 
+    * 'Razz' sound is played, 
+    *  countdown stops and 
+    *  message appears, "Time Up! You scored <**Your Scores here**>. Press "START" to play again."
+* Play the game in hard mode and let Simon play its turn. Let the countdown begin
+  and let player start the correct sequence before the timer becomes 0. Verify that
+  countdown stops and game continues as normal.
+* Play the game in hard mode and let Simon play its turn. Let the countdown begin
+  and let player click 'EXIT' button before the timer becomes 0. Verify that
+  countdown stops and game exit options appear, 'Are you sure? YES NO'.
+
 ##### Awards
 * To simplify testing *Awards* system is working fine, all cases in switch statement 
   were changed as following:

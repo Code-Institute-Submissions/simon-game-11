@@ -12,6 +12,7 @@ $(document).ready(function() {
     var start = $("#start");
     var exit = $('#exit');
     var hard = $("#hard");
+    var mode = $('#mode');
     var yes = $('#yes');
     var no = $('#no');
     var scores, retry, newGame, colorsClicked;
@@ -21,12 +22,27 @@ $(document).ready(function() {
 
     // enableClickEvents() enables all click events associated with buttons e.g. START, EXIT etc
 
-    enableClickEvents();
+    //exit.on("click", exitGame);
 
-    function enableClickEvents() {
-        colorsButton.on('click');
-        exit.on("click", exitGame);
-        start.on("click", play);
+    start.on("click", startNewGame);
+    
+    // Functions to enable and disable EXIT button
+    function disableExitButton() {
+        exit.prop('disabled', true);
+    }
+    function enableExitButton() {
+        exit.prop('disabled', false);
+    }
+    // Functions to enable and disable MODE button
+    function enableModeButton() {
+        mode.prop('disabled', false);
+    }
+    function disableModeButton() {
+        mode.prop('disabled', true);
+    }
+    function startNewGame() {
+        newGame=true;
+        play();
     }
 
     // play() function is called:
@@ -35,7 +51,7 @@ $(document).ready(function() {
     // when user click EXIT button and then click 'NO' when message appears 'Are you sure?'
 
     function play() {
-
+        disableModeButton();
         // Here we filter through the reasons for calling playGame function. This is needed so that: 
         // We reset the game in case of new game;
         // We keep the scores when the game is continued by user in case of retry.
@@ -44,14 +60,17 @@ $(document).ready(function() {
         if (newGame == false && retry != true && notEndGame != true) {
             scores++;
             scoresId.html(scores);
+            console.log('Game continue')
         }
         else if (newGame == false && (retry == true || notEndGame == true)) {
             scores;
+            console.log('Retry/NO EXIT')
         }
         else {
             scores = 0;
             scoresId.html(scores);
             simonSequence = [];
+            console.log('NEW GAME')
         }
 
         // Here we call awardType() function to check award type (if any) won by player.
@@ -80,12 +99,10 @@ $(document).ready(function() {
         simonPlay();
 
         function simonPlay() {
-
+            disableExitButton();
             disableClickEvents();
-
             function disableClickEvents() {
                 colorsButton.off('click');
-                exit.off("click");
                 start.off("click");
             }
 
@@ -108,25 +125,24 @@ $(document).ready(function() {
         }
 
         // Here player is prompt to play
-
         setTimeout(playerTurn, simonSequence.length * 1100);
-
+        
         // Here we enable click events so that the player can play or exit game.
         // In case of hard mode selected, we start the 10s countdown timer.
         // Timer will stop when the user starts the play;
         // Every time user clicks a colour, gameStatus() function is called to check it matches with simon's sequence.  
-
+        
         function playerTurn() {
-            enableClickEvents();
-            start.off("click");
+            enableExitButton();
             playerSequence = [];
             status.html('Your turn to play...');
-
+        
             if (hard.is(":checked")) {
                 timer();
                 colorsClicked = false; // Timer stops once the value is true (for hard mode only).
             }
             colorsButton.on('click', function() {
+                console.log(simonSequence);
                 colorsClicked = true; // Timer stops.
                 playSound($("#" + this.id), $("#" + this.id + "Sound")[0]);
                 playerSequence.push(this.id);
@@ -155,13 +171,17 @@ $(document).ready(function() {
             else {
                 incorrectSound.play(); // 'Razz' sound plays when player makes mistake
                 if (hard.is(":checked")) {
-                    status.html('<div class="gameOver">Game Over </div><br>Oops! That\'s not right!<br>You scored <span class="displayRed">' + scores + '</span><br>Press "NEW GAME" to start the game.');
+                    status.html('<div class="gameOver">Game Over </div><br>Oops! That\'s not right!<br>You scored <span class="displayRed">' + scores + '</span><br>Press "START" to play new game.');
+                    enableModeButton();
+                    start.on("click", startNewGame);
+                    disableExitButton();
                 }
                 else {
                     status.html("<div class='gameOver'>Oops! Not quite right!<br><br> Let's have another try! </div>");
                     retry = true;
                     newGame = false;
                     setTimeout(play, 4000);
+                    disableExitButton();
                 }
             }
         }
@@ -185,36 +205,29 @@ $(document).ready(function() {
     // yesExit() function is called and game overs when YES button is clicked;
     // noExit() function is called and game continues when NO button is clicked;
 
-
+    exit.on("click", exitGame);
     function exitGame() {
-        var confirmButton = $()
-        status.html(`
-            <div class="gameOver">
-                <p>Are you sure? </p>
-            </div>
-            <button type="button" id="confirm">yes</button>
-            <button type="button" id="no">no</button>
-        `);
-        
-        if( $("#yes") ) {
-         $("#yes").click(function() {
-             alert("exists")
-         })
-        }
+        $('#exit-options').removeClass('hide');
+        $('#status').addClass('hide');
         exitClicked = true;
+        colorsButton.off('click');
     }
-
+    yes.on("click", yesExit);
     function yesExit() {
         status.html(`
             <div class="gameOver">Game Over </div><br>You scored <span class="displayRed"> ${scores} </span><br>Press "START" to play the game.
         `);
-        newGame = true;
+        enableModeButton();
         exitClicked = false; // reset exitClicked
-        enableClickEvents();
-        exit.off("click");
+        disableExitButton();
+        start.on("click", startNewGame);
+        $('#exit-options').addClass('hide');
+        $('#status').removeClass('hide');
     }
-
+    no.on("click", noExit);
     function noExit() {
+        $('#exit-options').addClass('hide');
+        $('#status').removeClass('hide');
         newGame = false;
         notEndGame = true;
         exitClicked = false; // reset exitClicked
@@ -224,6 +237,7 @@ $(document).ready(function() {
     // Player must start the turn within 10s to avoid losing.
 
     function timer() {
+        disableExitButton();
         var counter = 10;
         var interval = setInterval(function() {
             counter--;
@@ -231,7 +245,10 @@ $(document).ready(function() {
             if (counter == 0 && colorsClicked == false) {
                 incorrectSound.play();
                 clearInterval(interval);
-                status.html('<div class="gameOver">Time Up! </div>You scored <span class="displayRed">' + scores + '</span><br>Press "NEW GAME" to start the game.');
+                status.html('<div class="gameOver">Time Up! </div>You scored <span class="displayRed">' + scores + '</span><br>Press "START" to play new game.');
+                enableModeButton();
+                start.on("click", startNewGame);
+                
             }
             else if (colorsClicked == true || exitClicked == true) {
                 clearInterval(interval);
