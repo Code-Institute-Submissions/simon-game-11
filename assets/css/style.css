@@ -116,7 +116,7 @@ body, html {
     border-color: #adb5bd;
     color: #adb5bd;
 }
-#status {
+.status {
     width: 310px;
     height: 120px;
     font-size: 13px;

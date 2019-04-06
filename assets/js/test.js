@@ -11,35 +11,157 @@ $(document).ready(function() {
     var colorsButton = $(".color-btn");
     var start = $("#start");
     var exit = $('#exit');
+    var exitOptions = $('#exit-options');
     var hard = $("#hard");
     var mode = $('#mode');
     var yes = $('#yes');
     var no = $('#no');
+    var playAgain = 'Press "START" to play new game.';
     var scores, retry, newGame, colorsClicked;
-    var playerSequence, simonSequence, exitClicked, notEndGame;
+    var playerSequence, simonSequence, notEndGame;
 
-    // ------------------------------------------------------------------  Functions
+    // ------------------------------------- Functions to Enable/Disable Buttons
 
-    // enableClickEvents() enables all click events associated with buttons e.g. START, EXIT etc
-
-    //exit.on("click", exitGame);
-
-    start.on("click", startNewGame);
-    
-    // Functions to enable and disable EXIT button
-    function disableExitButton() {
-        exit.prop('disabled', true);
-    }
+    // EXIT button
     function enableExitButton() {
         exit.prop('disabled', false);
     }
-    // Functions to enable and disable MODE button
+    function disableExitButton() {
+        exit.prop('disabled', true);
+    }
+    
+    // MODE button
     function enableModeButton() {
         mode.prop('disabled', false);
     }
     function disableModeButton() {
         mode.prop('disabled', true);
     }
+    
+    // START button
+    function enableStartButton() {
+        start.prop('disabled', false);
+    }
+    function disableStartButton() {
+        start.prop('disabled', true);
+    }
+    
+    // Coloured buttons
+    function disableColorButtons() {
+        colorsButton.off('click');
+    }
+    
+    // ------------------------------------------------ Function to Award player
+    
+    // Player is awarded bronze, silver, gold, platinum and diamond trophy based 
+    // on score count.
+    function awardType() {
+        switch (true) {
+            case (scores < 10):
+                trophy.addClass('transparent');
+                break;
+            case (scores < 25):
+                trophy.addClass('bronze');
+                typeOfAward.html('Bronze');
+                break;
+            case (scores < 50):
+                trophy.addClass('silver');
+                typeOfAward.html('Silver');
+                break;
+            case (scores < 75):
+                trophy.addClass('gold');
+                typeOfAward.html('Gold');
+                break;
+            case (scores < 100):
+                trophy.addClass('platinum');
+                typeOfAward.html('Platinum');
+                break;
+            case (scores >= 100):
+                trophy.addClass('diamond');
+                typeOfAward.html('Diamond');
+                break;
+        }
+    }
+    
+    //---------------------------------------- Function to Play different sounds
+
+    // This function is called when Simon or player plays
+    function playSound(colorId, soundId) {
+        soundId.play();
+        colorId.addClass("shadow-effect");
+        setTimeout(noShadowEffect, 100);
+
+        function noShadowEffect() {
+            colorId.removeClass("shadow-effect");
+        }
+    }
+    
+    //------------------------------------------ Function to set Countdown timer
+    
+    // timer function sets 10s countdown timer for hard mode. 
+    // Player must start the turn within 10s to avoid losing.
+    function timer() {
+        disableExitButton();
+        var counter = 10;
+        var interval = setInterval(function() {
+            counter--;
+            countdown.html(counter);
+            if (counter == 0 && colorsClicked == false) {
+                incorrectSound.play();
+                clearInterval(interval);
+                status.html(`
+                <div class="gameOver">Time Up! </div>
+                <p>You scored <span class="displayRed"> ${scores} </span><br> ${playAgain}</p>`);
+                enableModeButton();
+                enableStartButton();
+                
+            }
+            else if (colorsClicked == true) {
+                clearInterval(interval);
+                countdown.html('-');
+            }
+        }, 1200) // 1.2s used instead of 1s to slightly slow down the timer
+    }
+    
+    //---------------------------------------------------- Function to Exit Game
+    
+    // exitGame() function is called when EXIT button is clicked;
+    exit.on("click", exitGame);
+    function exitGame() {
+        exitOptions.removeClass('hide');
+        status.addClass('hide');
+        disableColorButtons();
+    }
+    
+    // yesExit() function is called and game overs when YES button is clicked;
+    yes.on("click", yesExit);
+    function yesExit() {
+        exitOptions.addClass('hide');
+        status.removeClass('hide');
+        status.html(
+        `<div class="gameOver"> Game Over </div>
+         <p>You scored <span class="displayRed"> ${scores} </span> <br> ${playAgain}.</p>`);
+        enableModeButton();
+        disableExitButton();
+        enableStartButton();
+    }
+    
+    // noExit() function is called and game continues when NO button is clicked;
+    no.on("click", noExit);
+    function noExit() {
+        exitOptions.addClass('hide');
+        status.removeClass('hide');
+        newGame = false;
+        notEndGame = true;
+        play();
+    }
+  
+    
+    
+    
+    //----------------------------------------------------------- Start the game
+    disableExitButton();
+    start.on("click", startNewGame);
     function startNewGame() {
         newGame=true;
         play();
@@ -52,6 +174,7 @@ $(document).ready(function() {
 
     function play() {
         disableModeButton();
+        disableColorButtons();
         // Here we filter through the reasons for calling playGame function. This is needed so that: 
         // We reset the game in case of new game;
         // We keep the scores when the game is continued by user in case of retry.
@@ -60,17 +183,14 @@ $(document).ready(function() {
         if (newGame == false && retry != true && notEndGame != true) {
             scores++;
             scoresId.html(scores);
-            console.log('Game continue')
         }
         else if (newGame == false && (retry == true || notEndGame == true)) {
             scores;
-            console.log('Retry/NO EXIT')
         }
         else {
             scores = 0;
             scoresId.html(scores);
             simonSequence = [];
-            console.log('NEW GAME')
         }
 
         // Here we call awardType() function to check award type (if any) won by player.
@@ -100,19 +220,15 @@ $(document).ready(function() {
 
         function simonPlay() {
             disableExitButton();
-            disableClickEvents();
-            function disableClickEvents() {
-                colorsButton.off('click');
-                start.off("click");
-            }
-
+            disableStartButton();
+            
             if (retry == true || notEndGame == true) {
-                simonSequence;
+                simonSequence; // previous simon sequence 
                 retry = false; // resets retry 
                 notEndGame = false; // resets notEndGame
             }
             else {
-                addRandomColor();
+                addRandomColor(); // another colour added to previous simon sequence
             }
             console.log(simonSequence);
             $.each(simonSequence, function(i) {
@@ -135,6 +251,7 @@ $(document).ready(function() {
         function playerTurn() {
             enableExitButton();
             playerSequence = [];
+            console.log(playerSequence);
             status.html('Your turn to play...');
         
             if (hard.is(":checked")) {
@@ -142,7 +259,6 @@ $(document).ready(function() {
                 colorsClicked = false; // Timer stops once the value is true (for hard mode only).
             }
             colorsButton.on('click', function() {
-                console.log(simonSequence);
                 colorsClicked = true; // Timer stops.
                 playSound($("#" + this.id), $("#" + this.id + "Sound")[0]);
                 playerSequence.push(this.id);
@@ -159,25 +275,32 @@ $(document).ready(function() {
             var lastPosition = playerSequence.length - 1; // position of the last item in player sequence
             console.log(playerSequence);
             if (playerSequence[lastPosition] == simonSequence[lastPosition] && playerSequence.length < simonSequence.length) {
-                status.html('Well done!');
+                status.html(`<p>Well done!</p>`);
             }
             else if (playerSequence[lastPosition] == simonSequence[lastPosition] && playerSequence.length == simonSequence.length) {
-                status.html('Next play! Get ready!');
+                status.html(`<p>Next play! Get ready!</p>`);
+                disableColorButtons();
                 setTimeout(function() {
                     newGame = false; // To avoid score and simon sequence reset
                     play();
-                }, 1500);
+                }, 2000);
             }
             else {
                 incorrectSound.play(); // 'Razz' sound plays when player makes mistake
+                console.log(playerSequence);
                 if (hard.is(":checked")) {
-                    status.html('<div class="gameOver">Game Over </div><br>Oops! That\'s not right!<br>You scored <span class="displayRed">' + scores + '</span><br>Press "START" to play new game.');
+                    status.html(
+                    `<div class="gameOver">Game Over </div>
+                     <p>Oops! That's not right!<br>
+                        You scored <span class="displayRed"> ${scores} </span><br> ${playAgain}.</p>`);
                     enableModeButton();
-                    start.on("click", startNewGame);
+                    enableStartButton();
                     disableExitButton();
                 }
                 else {
-                    status.html("<div class='gameOver'>Oops! Not quite right!<br><br> Let's have another try! </div>");
+                    status.html(
+                    `<div class='gameOver'> Oops! Not quite right!</div>
+                     <p>Let's have another try! </p>`);
                     retry = true;
                     newGame = false;
                     setTimeout(play, 4000);
@@ -186,106 +309,4 @@ $(document).ready(function() {
             }
         }
     }
-
-    //-------------------------------------------------------------------- Functions
-
-    // playSound() function is called when Simon or player plays
-
-    function playSound(colorId, soundId) {
-        soundId.play();
-        colorId.addClass("shadow-effect");
-        setTimeout(noShadowEffect, 100);
-
-        function noShadowEffect() {
-            colorId.removeClass("shadow-effect");
-        }
-    }
-
-    // exitGame() function is called when EXIT button is clicked;
-    // yesExit() function is called and game overs when YES button is clicked;
-    // noExit() function is called and game continues when NO button is clicked;
-
-    exit.on("click", exitGame);
-    function exitGame() {
-        $('#exit-options').removeClass('hide');
-        $('#status').addClass('hide');
-        exitClicked = true;
-        colorsButton.off('click');
-    }
-    yes.on("click", yesExit);
-    function yesExit() {
-        status.html(`
-            <div class="gameOver">Game Over </div><br>You scored <span class="displayRed"> ${scores} </span><br>Press "START" to play the game.
-        `);
-        enableModeButton();
-        exitClicked = false; // reset exitClicked
-        disableExitButton();
-        start.on("click", startNewGame);
-        $('#exit-options').addClass('hide');
-        $('#status').removeClass('hide');
-    }
-    no.on("click", noExit);
-    function noExit() {
-        $('#exit-options').addClass('hide');
-        $('#status').removeClass('hide');
-        newGame = false;
-        notEndGame = true;
-        exitClicked = false; // reset exitClicked
-        play();
-    }
-    // timer function sets 10s countdown timer for hard mode. 
-    // Player must start the turn within 10s to avoid losing.
-
-    function timer() {
-        disableExitButton();
-        var counter = 10;
-        var interval = setInterval(function() {
-            counter--;
-            countdown.html(counter);
-            if (counter == 0 && colorsClicked == false) {
-                incorrectSound.play();
-                clearInterval(interval);
-                status.html('<div class="gameOver">Time Up! </div>You scored <span class="displayRed">' + scores + '</span><br>Press "START" to play new game.');
-                enableModeButton();
-                start.on("click", startNewGame);
-                
-            }
-            else if (colorsClicked == true || exitClicked == true) {
-                clearInterval(interval);
-                countdown.html('-');
-            }
-        }, 1200) // 1.2s used instead of 1s to slightly slow down the timer
-    }
-
-
-    // Player is awarded bronze, silver, gold, platinum and diamond trophy based on score count.
-
-    function awardType() {
-        switch (true) {
-            case (scores < 10):
-                trophy.addClass('transparent');
-                break;
-            case (scores < 25):
-                trophy.addClass('bronze');
-                typeOfAward.html('Bronze');
-                break;
-            case (scores < 50):
-                trophy.addClass('silver');
-                typeOfAward.html('Silver');
-                break;
-            case (scores < 75):
-                trophy.addClass('gold');
-                typeOfAward.html('Gold');
-                break;
-            case (scores < 100):
-                trophy.addClass('platinum');
-                typeOfAward.html('Platinum');
-                break;
-            case (scores >= 100):
-                trophy.addClass('diamond');
-                typeOfAward.html('Diamond');
-                break;
-        }
-    }
-
 });
