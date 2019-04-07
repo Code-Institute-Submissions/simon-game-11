@@ -17,12 +17,12 @@
     <!--- Header -->
     <header id="header">
         <h1 class="heading text-center">Simon Game</h1>
-        <div class="container score-block">
+        <div class="container">
             <div class="row text-center">
                 <!--- Scores -->
                 <div class="col-4 col-sm-4 top-display"> Scores <div class="top-display-entry" id="scores">-</div></div>
                 <!--- Awards -->
-                <div class="col-4 col-sm-4 top-display"><div id="award-type">Award </div><i class="top-display-entry fa fa-trophy faa-pulse animated" aria-hidden="true"></i></div>
+                <div class="col-4 col-sm-4 top-display"><div id="trophy-type">Award </div><i class="top-display-entry fa fa-trophy faa-pulse animated" aria-hidden="true"></i></div>
                 <!--- Timer -->
                 <div class="col-4 col-sm-4 top-display"> Timer <div class="top-display-entry" id="countdown">-</div></div>
             </div>
@@ -44,12 +44,12 @@
         <!--- Game options -->
         <section class="game-options-wrapper">
             <div class="text-center status" id="status">
-                Press 'HELP' to read game instructions.<br>
-                Press 'MODE' to choose your game mode. <br>
-                Press 'START' to begin the game.
+                Press <strong>HELP</strong> to read game instructions.<br>
+                Press <strong>MODE</strong> to choose your game mode. <br>
+                Press <strong>START</strong> to begin the game.
             </div>
             <div class="text-center hide status" id="exit-options">
-                <div class="status-title-font">
+                <div class="font">
                     <p>Are you sure? </p>
                 </div>
                 <button type="button" class="btn btn-danger" id="yes">yes</button>
@@ -106,13 +106,13 @@
                             <li>Select game mode by pressing MODE button. You can choose EASY or HARD. In EASY mode, you 
                               can continue the game even if you make mistake. In HARD mode, game is over if you make a mistake.
                               Moreover, you have 10 seconds to start your sequence or your time is up.</li>
-                            <li>Once game mode is selected, press the START button. Simon will give the first signal. Repeat the signal by pressing
-                              the same colour lens.</li>
+                            <li>Once the game mode is selected, press the START button. Simon will give the first signal. Repeat the signal by pressing
+                              the same colour pad.</li>
                             <li>Simon will then give two signals and so on. Keep repeating the signals by pressing the same 
-                              colour lenses, in order.</li>
+                              colour pads, in order.</li>
                             <li>Continue playing as long as you can repeat each sequence of signals correctly.</li>
                             <li>If you fail to repeat a sequence, Simon responds with 'RAZZ' sound. In hard mode, this means game is over
-                              and your scores will be displayed. In easy mode, you are still in the game and Simon will play another sequence for you
+                              and your scores will be displayed. In easy mode, you are still in the game and Simon will play the same sequence for you
                               to try again.</li>
                         </ol>
                         <h6>AWARDS:</h6>
@@ -121,7 +121,7 @@
                             <li>If you score 25+, you get Silver cup.</li>
                             <li>If you score 50+, you get Gold cup.</li>
                             <li>If you score 75+, you get Platinum cup.</li>
-                            <li>If you score 100, you get Diamond cup. You are the 'Winner'.</li>
+                            <li>If you score 100, you get Diamond cup. You are the 'Winner'. You can still continue playing the game for fun!</li>
                         </ul>
                     </div>
                 </div>

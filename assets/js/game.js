@@ -5,7 +5,7 @@ $(document).ready(function() {
     var scoresId = $('#scores');
     var countdown = $("#countdown");
     var trophy = $('.fa-trophy');
-    var typeOfAward = $('#award-type');
+    var trophyType = $('#trophy-type');
     var incorrectSound = $('#incorrectSound')[0];
     var status = $('#status');
     var colorsButton = $(".color-btn");
@@ -62,23 +62,23 @@ $(document).ready(function() {
                 break;
             case (scores < 25):
                 trophy.addClass('bronze');
-                typeOfAward.html('Bronze');
+                trophyType.html('Bronze');
                 break;
             case (scores < 50):
                 trophy.addClass('silver');
-                typeOfAward.html('Silver');
+                trophyType.html('Silver');
                 break;
             case (scores < 75):
                 trophy.addClass('gold');
-                typeOfAward.html('Gold');
+                trophyType.html('Gold');
                 break;
             case (scores < 100):
                 trophy.addClass('platinum');
-                typeOfAward.html('Platinum');
+                trophyType.html('Platinum');
                 break;
             case (scores >= 100):
                 trophy.addClass('diamond');
-                typeOfAward.html('Diamond');
+                trophyType.html('Diamond');
                 break;
             default:
                 trophy.addClass('transparent');
@@ -112,8 +112,8 @@ $(document).ready(function() {
                 incorrectSound.play();
                 clearInterval(interval);
                 status.html(`
-                <div class="gameOver">Time Up! </div>
-                <p>You scored <span class="displayRed"> ${scores} </span><br> ${playAgain}</p>`);
+                <div class="font">Time Up! </div>
+                <p>You scored <span class="red"> ${scores} </span><br> ${playAgain}</p>`);
                 enableModeButton();
                 enableStartButton();
                 
@@ -141,8 +141,8 @@ $(document).ready(function() {
         exitOptions.addClass('hide');
         status.removeClass('hide');
         status.html(
-        `<div class="gameOver"> Game Over </div>
-         <p>You scored <span class="displayRed"> ${scores} </span> <br> ${playAgain}.</p>`);
+        `<div class="font"> Game Over </div>
+         <p>You scored <span class="red"> ${scores} </span> <br> ${playAgain}.</p>`);
         enableModeButton();
         disableExitButton();
         enableStartButton();
@@ -292,16 +292,16 @@ $(document).ready(function() {
                 console.log(playerSequence);
                 if (hard.is(":checked")) {
                     status.html(
-                    `<div class="gameOver">Game Over </div>
+                    `<div class="font">Game Over </div>
                      <p>Oops! That's not right!<br>
-                        You scored <span class="displayRed"> ${scores} </span><br> ${playAgain}.</p>`);
+                        You scored <span class="red"> ${scores} </span><br> ${playAgain}.</p>`);
                     enableModeButton();
                     enableStartButton();
                     disableExitButton();
                 }
                 else {
                     status.html(
-                    `<div class='gameOver'> Oops! Not quite right!</div>
+                    `<div class='font'> Oops! Not quite right!</div>
                      <p>Let's have another try! </p>`);
                     retry = true;
                     newGame = false;

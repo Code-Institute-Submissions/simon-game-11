@@ -17,17 +17,14 @@ I am given choice to play either Easy or Hard game mode.
 I am presented with random sequence of button presses and hear a sound that corresponds to each pressed button.
 
 ###### User Story 4
-I must start my series of button presses within 10 seconds or:
-- (easy mode) the series of button presses starts again to remind me of the pattern so I can try again.
-- (hard mode) the game is over.
+I must start my series of button presses within 10 seconds or the game is over. (hard mode only)
 
 ###### User Story 5
 Each time I input a series of button presses correctly, I earn 1 score.
 
 ###### User Story 6
-Each time I input a series of button presses correctly, I am presented with:
-- (easy mode) the same series of button presses but with an additional step.
-- (hard mode) the random series of button presses.
+Each time I input a series of button presses correctly, I am presented with the 
+same series of button presses but with an additional step.
 
 ###### User Story 7
 I am notified when I press a wrong button. Then:
@@ -41,7 +38,9 @@ I can check my scores throughout the play.
 I can win a award by getting certain scores.
 
 ###### User Story 10
-If I want to exit the game, I can hit a button to do so.
+If I want to exit the game, I can:
+* hit a button to do so. (easy mode only)
+* wait for the timer to stop. (hard mode only)
 
 ## Features
 
@@ -102,8 +101,18 @@ All tests were carried out manually.
 I made extensive use of Dev Tools during the production of this website to test functioning of my site on different
 devices.
 
-##### HTML and CSS validator
-HTML, CSS validators were used to validate my code. 
+##### [HTML validator](https://validator.w3.org/)
+HTML validator is used to validate the code. 
+
+* No errors found.
+* **Warning:** *Section lacks heading. Consider using h2-h6 elements to add identifying headings to all sections.*
+  * This is the only warning raised but no section heading is needed so the warning is ignored.
+
+##### [CSS validator](https://jigsaw.w3.org/css-validator/)
+
+* No errors found.
+* **Warning:** *-moz-box-shadow is an unknown vendor extension*
+  * Similar other warnings are raised but browser vendors are required to ensure compatibility.
 
 ##### Cross Browser Testing
 ###### Accessibility / Screen Reader Application Testing
