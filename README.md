@@ -56,11 +56,11 @@ The website is designed using following technologies:
 - HTML
 - CSS
 - JavaScript
-- Jquery
-- Font Awesome library
-- Bootstrap 4 framework
-- Google fonts
-- Pencil
+- [Jquery](https://jquery.com/download/)
+- [Font Awesome library](https://fontawesome.com/)
+- [Font Awesome Animation](http://l-lin.github.io/font-awesome-animation/)
+- [Bootstrap 4 framework](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
+- [Google fonts](https://fonts.google.com/)
 
 ## Testing
 All tests were carried out manually.
