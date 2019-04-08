@@ -60,7 +60,6 @@ $(document).ready(function() {
 //  Based on score count, player is awarded different trophies. 
 
     function awardType() {
-        console.log(scores);
         switch (true) {
             case (scores < 10):
                 trophy.addClass("transparent");

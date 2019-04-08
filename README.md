@@ -337,6 +337,7 @@ Following ARIA attributes were used to make website as accessible as possible:
 
 ## Deployment
 
+
 ## Credits
 
 ##### Content
