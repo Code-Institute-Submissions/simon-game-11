@@ -336,7 +336,21 @@ Following ARIA attributes were used to make website as accessible as possible:
     Aria-label = Close and Aria-hidden = true is used for modal close button. 
 
 ## Deployment
+The website was deployed using [github pages](https://pages.github.com/).
+Following steps were taken to deploy the website:
+1. Created a remote repository with name 'simon-game'.
+3. Pushed the local git repository to the remote repository using the following commands
+    1. git remote add origin https://github.com/maria-mir/simon-game.git
+    2. git push -u origin master
+4. Clicked 'settings' in simon-game repository page.
+5. Scrolled down to 'Github Pages' and chose 'Master Branch' from the dropdown menu.
+6. Clicked save and waited for few minutes for the live website link to appear.
+7. Once the link appear, website was successfully deployed.
 
+###### Changes
+Following changes were made after deployment:
+* Updated README.md file, and 
+* Corrected source path of five audio files.
 
 ## Credits
 
