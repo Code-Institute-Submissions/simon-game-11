@@ -1,5 +1,5 @@
 # Simon Game
-This website is my second Milestone project in Full Stack web developer course run by Code Institute. 
+This [website](https://maria-mir.github.io/simon-game/) is my second Milestone project in Full Stack web developer course run by Code Institute. 
 It is designed to allow users to play 'Simon Game'.
 ## How to Play
 *Single player game*
