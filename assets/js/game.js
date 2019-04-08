@@ -62,7 +62,7 @@ $(document).ready(function() {
     function awardType() {
         console.log(scores);
         switch (true) {
-            case (scores < 3):
+            case (scores < 10):
                 trophy.addClass("transparent");
                 trophyType.html("Award");
                 break;
